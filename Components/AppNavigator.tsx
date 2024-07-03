@@ -6,7 +6,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from "react-native-ionicons";
 
 import { ManualInputScreen } from './ManualInputScreen'
-import { SearchInputScreen } from './SearchInputScreen'
+import SearchInputScreen from './SeachInputScreen/SearchInputScreen'
 import { OptionsScreen } from './OptionsScreen';
 
 import { DARK, LIGHT } from '../assets/ColorPalettes';

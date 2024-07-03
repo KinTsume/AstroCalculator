@@ -1,6 +1,6 @@
 import {View, Text, StyleSheet, useColorScheme} from 'react-native'
 
-import { DistanceCalculator } from './DistanceCalculator'
+import DistanceCalculator from './DistanceCalculator/DistanceCalculator'
 
 import { DARK, LIGHT } from '../assets/ColorPalettes'
 
