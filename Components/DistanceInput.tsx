@@ -1,7 +1,7 @@
 import { TextInput, Text, View, StyleSheet } from 'react-native'
 
 import { ManualInputScreenColors } from '../assets/ColorPalettes'
-import CoordinateInputField from './CoordinateInputField/CoordinateInputField'
+import CoordinateInputField from './coordinateInputField/CoordinateInputField'
 import React from 'react'
 
 export interface DistanceInputProps{
@@ -10,7 +10,7 @@ export interface DistanceInputProps{
     textInfo: string[],
     isHourAngle: boolean,
     isOrigin: boolean,
-    SaveValues: () => void
+    SaveValues: (index: number, value: string[]) => void
 }
 
 export function DistanceInput(props: DistanceInputProps) {
@@ -36,7 +36,7 @@ export function DistanceInput(props: DistanceInputProps) {
             style={props.style}
             textInfo={props.textInfo}
             SaveValues={props.SaveValues}
-            orderNum={3}
+            orderNum={1}
             />
         )
     }
@@ -49,7 +49,7 @@ export function DistanceInput(props: DistanceInputProps) {
             style={props.style}
             textInfo={props.textInfo}
             SaveValues={props.SaveValues}
-            orderNum={6}
+            orderNum={2}
             />
         )
     }
@@ -60,7 +60,7 @@ export function DistanceInput(props: DistanceInputProps) {
         style={props.style}
         textInfo={props.textInfo}
         SaveValues={props.SaveValues}
-        orderNum={9}
+        orderNum={3}
         />
     )
   

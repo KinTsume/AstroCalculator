@@ -11,38 +11,23 @@ export interface DistanceCalculatorProps {
 
 const useDistanceCalculator = (props: DistanceCalculatorProps) => {
 
-    const originInput = [0, 0, 0];
-    const targetInput = [0, 0, 0];
+    let originInput: number[] = [];
+    let targetInput: number[] = [];
+
     const [result, setResult] = useState([0, 0, 0]);
 
-    const SaveValues = (index: number, value: string) => {
+    const SaveValues = (index: number, value: string[]) => {
+        switch(index){
+          case 1:
+            originInput = value.map((x) => parseInt(x))
+            break;
 
-        switch(index)
-        {
-          case 1: 
-            originInput[0] = parseInt(value)
-          break;
-    
-          case 2: 
-            originInput[1] = parseInt(value)
-          break;
-    
-          case 3: 
-            originInput[2] = parseInt(value)
-          break;
-    
-          case 4: 
-            targetInput[0] = parseInt(value)
-          break;
-    
-          case 5: 
-            targetInput[1] = parseInt(value)
-          break;
-    
-          case 6: 
-            targetInput[2] = parseInt(value)
-          break;
-          
+          case 2:
+            targetInput = value.map((x) => parseInt(x))
+            break;
+
+          default:
+            break;
         }
     }
 

@@ -1,12 +1,11 @@
 import React from 'react';
 import {View, Text, Image, useColorScheme} from 'react-native'
-import { NavigationContainer } from '@react-navigation/native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 
 import Ionicons from "react-native-ionicons";
 
 import { ManualInputScreen } from './ManualInputScreen'
-import SearchInputScreen from './SeachInputScreen/SearchInputScreen'
+import SearchInputScreen from './seachInputScreen/SearchInputScreen'
 import { OptionsScreen } from './OptionsScreen';
 
 import { DARK, LIGHT } from '../assets/ColorPalettes';

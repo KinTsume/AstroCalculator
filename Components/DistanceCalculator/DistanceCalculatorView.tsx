@@ -7,7 +7,7 @@ import { ManualInputScreenColors } from '../../assets/ColorPalettes'
 import { DistanceCalculatorProps } from './useDistanceCalculator'
 
 interface DistanceCalculatorViewProps extends DistanceCalculatorProps {
-  SaveValues: (index: number, value: string) => void
+  SaveValues: (index: number, value: string[]) => void
   CalculateDistanceInDegrees: () => void,
   result: Array<number>
 }
@@ -29,7 +29,7 @@ const DistanceCalculatorView = (props: DistanceCalculatorViewProps) => {
           textInfo={props.textInfo}
           isHourAngle={props.isHourAngle}
           isOrigin={true} 
-          saveCallback={props.SaveValues} 
+          SaveValues={props.SaveValues} 
           style={[styles.textInput, {backgroundColor: 'lightblue'}]}
           />
         </View>
@@ -44,7 +44,7 @@ const DistanceCalculatorView = (props: DistanceCalculatorViewProps) => {
           textInfo={props.textInfo}
           isHourAngle={props.isHourAngle}
           isOrigin={false} 
-          saveCallback={props.SaveValues} 
+          SaveValues={props.SaveValues} 
           style={styles.textInput}
           />
 

@@ -1,7 +1,4 @@
 import {View, Text, TextInput, StyleSheet, useColorScheme} from 'react-native'
-
-import { ObjectInfo } from '../ObjectInfo'
-
 import { DARK, LIGHT } from '../../assets/ColorPalettes'
 
 interface SkyObjects{

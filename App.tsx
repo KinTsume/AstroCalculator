@@ -1,6 +1,6 @@
 import { NavigationContainer } from '@react-navigation/native'
 
-import { AppNavigator } from './Components/AppNavigator'
+import { AppNavigator } from './components/AppNavigator'
 import { Text } from 'react-native'
 
 export default function App(){
