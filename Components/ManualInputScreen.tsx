@@ -4,15 +4,6 @@ import ManualInputField from './manualInputField/ManualInputField'
 
 import { DARK, LIGHT, ManualInputScreenColors } from '../assets/ColorPalettes'
 
-export interface ManualInputScreenChildCommonProps{
-  themeColors: ManualInputScreenColors,
-  fieldName: string,
-  fieldUnits: string[],
-  unitsMaxValue: number[],
-  isHourAngle: boolean,
-  style: any
-}
-
 export const ManualInputScreen = () => {
   
   const isDarkMode = useColorScheme() === 'dark'

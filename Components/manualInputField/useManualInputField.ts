@@ -1,9 +1,17 @@
 import { useRef } from "react";
 
 import { ManualInputScreenColors } from '../../assets/ColorPalettes'
-import { ManualInputScreenChildCommonProps } from "../ManualInputScreen";
 
-const useManualInputField = (props: ManualInputScreenChildCommonProps) => {
+export interface ManualInputFieldProps{
+  themeColors: ManualInputScreenColors,
+  fieldName: string,
+  fieldUnits: string[],
+  unitsMaxValue: number[],
+  isHourAngle: boolean,
+  style: any
+}
+
+const useManualInputField = (props: ManualInputFieldProps) => {
 
   const originInput = useRef([0, 0, 0]);
   const targetInput = useRef([0, 0, 0])

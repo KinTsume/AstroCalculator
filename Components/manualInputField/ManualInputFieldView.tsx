@@ -3,10 +3,9 @@ import {View, Text, TextInput, Pressable, StyleSheet} from 'react-native'
 
 import CoordinateInput from '../coordinateInput/CoordinateInput'
 import { ManualInputScreenColors } from '../../assets/ColorPalettes'
+import { ManualInputFieldProps } from './useManualInputField'
 
-import { ManualInputScreenChildCommonProps } from '../ManualInputScreen'
-
-export interface ManualInputFieldViewProps extends ManualInputScreenChildCommonProps {
+export interface ManualInputFieldViewProps extends ManualInputFieldProps {
   SaveValues: (index: number, value: string[]) => void
   CalculateDistanceInDegrees: () => number[]
 }

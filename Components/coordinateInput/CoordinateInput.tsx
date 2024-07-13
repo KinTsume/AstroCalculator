@@ -3,10 +3,15 @@ import { TextInput, Text, View, StyleSheet } from 'react-native'
 
 import { ManualInputScreenColors } from '../../assets/ColorPalettes'
 import CoordinateInputField from '../coordinateInputField/CoordinateInputField'
-import { ManualInputFieldViewProps } from '../manualInputField/ManualInputFieldView'
 
-export interface CoordinateInputProps extends Omit<ManualInputFieldViewProps, 'fieldName'|'CalculateDistanceInDegrees'>{
-  isOrigin: boolean
+export interface CoordinateInputProps{
+  themeColors: ManualInputScreenColors,
+  fieldUnits: string[],
+  unitsMaxValue: number[],
+  isHourAngle: boolean,
+  isOrigin: boolean,
+  style: any,
+  SaveValues: (index: number, value: string[]) => void
 }
 
 function CoordinateInput(props: CoordinateInputProps) {

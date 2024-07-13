@@ -2,10 +2,14 @@ import { TextInput, Text, View, StyleSheet } from 'react-native'
 import { useRef, useState } from 'react'
 
 import { ManualInputScreenColors } from '../../assets/ColorPalettes'
-import { CoordinateInputProps } from '../coordinateInput/CoordinateInput'
 
-export interface InputFieldProps extends CoordinateInputProps{
-  orderNum: number
+export interface InputFieldProps{
+  fieldUnits: string[],
+  unitsMaxValue: number[],
+  orderNum: number,
+  themeColors: ManualInputScreenColors,
+  style: any,
+  SaveValues: (index: number, value: string[]) => void
 }
 
 const CoordinateInputField = (props: InputFieldProps) => {
