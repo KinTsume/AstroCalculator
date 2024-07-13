@@ -1,76 +1,106 @@
 import { TextInput, Text, View, StyleSheet } from 'react-native'
-import { useRef } from 'react'
+import { useRef, useState } from 'react'
 
 import { ManualInputScreenColors } from '../../assets/ColorPalettes'
+import { CoordinateInputProps } from '../coordinateInput/CoordinateInput'
 
-interface InputFieldProps{
-  themeColors: ManualInputScreenColors,
-  style: any,
-  textInfo: string[],
-  orderNum: number,
-  SaveValues: (index: number, value: string[]) => void,
+export interface InputFieldProps extends CoordinateInputProps{
+  orderNum: number
 }
 
 const CoordinateInputField = (props: InputFieldProps) => {
     const secondTextInput = useRef<TextInput>(null)
     const thirdTextInput = useRef<TextInput>(null)
 
-    const inputTexts = useRef(["0", "0", "0"])
+    const [inputTexts, setInputTexts] = useState(['0', '0', '0']);
 
     const themeColors = props.themeColors
 
     return (
         <View style={[props.style, styles.container, {backgroundColor: themeColors.PropertyInput}]}>
             <TextInput 
+            testID='inputSubfield'
             textAlign='center'
             inputMode='numeric'
             maxLength={3}
             placeholder='000'
-            onChangeText = {(value) => {inputTexts.current[0] = value}}
+            value={inputTexts[0]}
+            onChangeText = {(value) => {
+              let parsed = parseInt(value)
+              if(parsed >= props.unitsMaxValue[0]){
+                parsed = props.unitsMaxValue[0] - 1
+                value = '' + parsed
+              }
+              
+              setInputTexts([value, inputTexts[1], inputTexts[2]])}
+            }
             onSubmitEditing = {() => {
               secondTextInput.current?.focus()
-              props.SaveValues(props.orderNum, inputTexts.current)
+              props.SaveValues(props.orderNum, inputTexts)
+              console.log('Submitted editing')
+            }}
+            onEndEditing={() => {
+              props.SaveValues(props.orderNum, inputTexts)
+              console.log('End editing')
             }}
             blurOnSubmit={false}
             placeholderTextColor={themeColors.PlaceholderTextColor}
             style={[styles.textInputStyle, {color: themeColors.TextColor}]}
             />
     
-            <Text style={[styles.text, {color: themeColors.TextColor}]}>{props.textInfo[1]}</Text>
+            <Text style={[styles.text, {color: themeColors.TextColor}]} testID='inputSubfieldText'>{props.fieldUnits[0]}</Text>
     
             <TextInput 
+            testID='inputSubfield'
             textAlign='center'
             inputMode='numeric'
             maxLength={2}
             placeholder='00'
-            onChangeText = {(value) => {inputTexts.current[1] = value}}
+            value={inputTexts[1]}
+            onChangeText = {(value) => {
+              let parsed = parseInt(value)
+              if(parsed >= props.unitsMaxValue[1]){
+                parsed = props.unitsMaxValue[1] - 1
+                value = '' + parsed
+              }
+              setInputTexts([inputTexts[0], value, inputTexts[2]])
+            }}
             ref={secondTextInput}
             onSubmitEditing = {() => {
               thirdTextInput.current?.focus()
-              props.SaveValues(props.orderNum, inputTexts.current)
+              props.SaveValues(props.orderNum, inputTexts)
             }}
             blurOnSubmit={false}
             placeholderTextColor={themeColors.PlaceholderTextColor}
             style={[styles.textInputStyle, {color: themeColors.TextColor}]}
             />
         
-            <Text style={[styles.text, {color: themeColors.TextColor}]}>{props.textInfo[2]}</Text>
+            <Text style={[styles.text, {color: themeColors.TextColor}]} testID='inputSubfieldText'>{props.fieldUnits[1]}</Text>
         
             <TextInput 
+            testID='inputSubfield'
             textAlign='center'
             inputMode='numeric'
             maxLength={2}
             placeholder='00'
-            onChangeText = {(value) => {inputTexts.current[2] = value}}
+            value={inputTexts[2]}
+            onChangeText = {(value) => {
+              let parsed = parseInt(value)
+              if(parsed >= props.unitsMaxValue[2]){
+                parsed = props.unitsMaxValue[2] - 1
+                value = '' + parsed
+              }
+              setInputTexts([inputTexts[0], inputTexts[1], value])
+            }}
             ref={thirdTextInput}
             onSubmitEditing = {() => {
-              props.SaveValues(props.orderNum, inputTexts.current)
+              props.SaveValues(props.orderNum, inputTexts)
             }}
             placeholderTextColor={themeColors.PlaceholderTextColor}
             style={[styles.textInputStyle, {color: themeColors.TextColor}]}
             />
         
-            <Text style={[styles.text, {color: themeColors.TextColor}]}>{props.textInfo[3]}</Text>
+            <Text style={[styles.text, {color: themeColors.TextColor}]} testID='inputSubfieldText'>{props.fieldUnits[2]}</Text>
         </View>
       )
 }

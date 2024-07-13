@@ -1,8 +1,17 @@
 import {View, Text, StyleSheet, useColorScheme} from 'react-native'
 
-import DistanceCalculator from './distanceCalculator/DistanceCalculator'
+import ManualInputField from './manualInputField/ManualInputField'
 
-import { DARK, LIGHT } from '../assets/ColorPalettes'
+import { DARK, LIGHT, ManualInputScreenColors } from '../assets/ColorPalettes'
+
+export interface ManualInputScreenChildCommonProps{
+  themeColors: ManualInputScreenColors,
+  fieldName: string,
+  fieldUnits: string[],
+  unitsMaxValue: number[],
+  isHourAngle: boolean,
+  style: any
+}
 
 export const ManualInputScreen = () => {
   
@@ -13,16 +22,20 @@ export const ManualInputScreen = () => {
   return (
     <View style={[styles.container, {backgroundColor: themeColors.Background}]}>
       <Text style={styles.title}>Astronomical relative position calculator</Text>
-      <DistanceCalculator 
+      <ManualInputField 
       themeColors={themeColors}
       isHourAngle={true} 
-      textInfo={['hour angle', 'h', 'm', 's']} 
+      fieldName='hour angle'
+      fieldUnits={['h', 'm', 's']} 
+      unitsMaxValue={[24, 60, 60]}
       style={styles.paragraph} />
 
-      <DistanceCalculator
+      <ManualInputField
       themeColors={themeColors} 
       isHourAngle={false}
-      textInfo={['declination', 'º', '´', '´´']} 
+      fieldName='declination'
+      fieldUnits={['º', '´', '´´']} 
+      unitsMaxValue={[360, 60, 60]}
       style={styles.paragraph} />
 
     </View>

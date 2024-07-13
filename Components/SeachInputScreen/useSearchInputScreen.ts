@@ -27,12 +27,6 @@ interface ObjectData{
 }
 
 const useSearchInputScreen = () => {
-    const SearchedObjects: Array<SkyObjects> = []
-
-    const ShowSearchObjects = (searchText: string) => {
-        GetSearchedObjects(searchText)
-    }
-
     const GetSearchedObjects = (search: string | number) => {
         /*fetch('<API address>',{
             method: 'POST',
@@ -66,7 +60,7 @@ const useSearchInputScreen = () => {
         return searchResult
     }
 
-    return {}
+    return {GetSearchedObjects}
 }
 
 export default useSearchInputScreen
