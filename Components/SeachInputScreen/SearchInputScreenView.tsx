@@ -1,13 +1,6 @@
 import {View, Text, TextInput, StyleSheet, useColorScheme} from 'react-native'
 import { DARK, LIGHT } from '../../assets/ColorPalettes'
 
-interface SkyObjects{
-    name: string,
-    altname: string,
-    declination: string,
-    rightAscension: string
-}
-
 interface SearchInputScreenViewProps {
     ShowSearchObject: () => void
 }
@@ -19,7 +12,7 @@ const SearchInputScreenView = (props: SearchInputScreenViewProps) => {
     const themeColors = isDarkMode ? DARK.SearchInputScreen : LIGHT.SearchInputScreen
 
     return (
-        <View style={[styles.container, {backgroundColor: themeColors.Background}]}>
+        <View testID='SearchInputScreen' style={[styles.container, {backgroundColor: themeColors.Background}]}>
           <View style={[styles.inputContainer, {backgroundColor: themeColors.SearchInputContainer}]}>
               <TextInput 
               textAlign='center'

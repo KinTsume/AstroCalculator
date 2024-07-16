@@ -7,7 +7,6 @@ export interface ManualInputFieldProps{
   fieldName: string,
   fieldUnits: string[],
   unitsMaxValue: number[],
-  isHourAngle: boolean,
   style: any
 }
 
@@ -18,12 +17,14 @@ const useManualInputField = (props: ManualInputFieldProps) => {
 
   const SaveValues = (index: number, value: string[]) => {
     switch(index){
-      case 1:
+      case 0:
         originInput.current = value.map((x) => parseInt(x))
+        console.log('Set origin Input: ' + originInput.current)
         break;
 
-      case 2:
+      case 1:
         targetInput.current = value.map((x) => parseInt(x))
+        console.log('Set target Input: ' + targetInput.current)
         break;
 
       default:

@@ -6,7 +6,7 @@ import { ManualInputScreenColors } from '../../assets/ColorPalettes'
 export interface InputFieldProps{
   fieldUnits: string[],
   unitsMaxValue: number[],
-  orderNum: number,
+  saveIndex: number,
   themeColors: ManualInputScreenColors,
   style: any,
   SaveValues: (index: number, value: string[]) => void
@@ -40,11 +40,11 @@ const CoordinateInputField = (props: InputFieldProps) => {
             }
             onSubmitEditing = {() => {
               secondTextInput.current?.focus()
-              props.SaveValues(props.orderNum, inputTexts)
+              props.SaveValues(props.saveIndex, inputTexts)
               console.log('Submitted editing')
             }}
             onEndEditing={() => {
-              props.SaveValues(props.orderNum, inputTexts)
+              props.SaveValues(props.saveIndex, inputTexts)
               console.log('End editing')
             }}
             blurOnSubmit={false}
@@ -72,7 +72,7 @@ const CoordinateInputField = (props: InputFieldProps) => {
             ref={secondTextInput}
             onSubmitEditing = {() => {
               thirdTextInput.current?.focus()
-              props.SaveValues(props.orderNum, inputTexts)
+              props.SaveValues(props.saveIndex, inputTexts)
             }}
             blurOnSubmit={false}
             placeholderTextColor={themeColors.PlaceholderTextColor}
@@ -98,7 +98,7 @@ const CoordinateInputField = (props: InputFieldProps) => {
             }}
             ref={thirdTextInput}
             onSubmitEditing = {() => {
-              props.SaveValues(props.orderNum, inputTexts)
+              props.SaveValues(props.saveIndex, inputTexts)
             }}
             placeholderTextColor={themeColors.PlaceholderTextColor}
             style={[styles.textInputStyle, {color: themeColors.TextColor}]}

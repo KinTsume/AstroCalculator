@@ -2,7 +2,7 @@ import {View, Text, StyleSheet} from 'react-native'
 
 export const OptionsScreen = () => {
     return(
-        <View style={styles.optionsView}>
+        <View testID='OptionsScreen' style={styles.optionsView}>
         </View>
     )
     

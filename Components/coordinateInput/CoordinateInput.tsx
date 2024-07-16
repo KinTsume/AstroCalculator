@@ -8,51 +8,28 @@ export interface CoordinateInputProps{
   themeColors: ManualInputScreenColors,
   fieldUnits: string[],
   unitsMaxValue: number[],
-  isHourAngle: boolean,
   isOrigin: boolean,
   style: any,
   SaveValues: (index: number, value: string[]) => void
 }
 
 function CoordinateInput(props: CoordinateInputProps) {
-    
-    if(props.isHourAngle)
-    {
-        if(props.isOrigin)
-        {
-        return (
-          <CoordinateInputField
-          {...props}
-          orderNum={0}
-          />
-        )
-        }
-
-        return (
-          <CoordinateInputField
-          {...props}
-          orderNum={1}
-          />
-        )
-    }
-
-    if(props.isOrigin)
-    {
-        return (
-          <CoordinateInputField
-          {...props}
-          orderNum={2}
-          />
-        )
-    }
-
+  if(props.isOrigin)
+  {
     return (
       <CoordinateInputField
       {...props}
-      orderNum={3}
+      saveIndex={0}
       />
     )
-  
+  }
+
+  return (
+    <CoordinateInputField
+    {...props}
+    saveIndex={1}
+    />
+  )  
 }
 
 export default CoordinateInput

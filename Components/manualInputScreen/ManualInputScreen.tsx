@@ -1,29 +1,27 @@
 import {View, Text, StyleSheet, useColorScheme} from 'react-native'
 
-import ManualInputField from './manualInputField/ManualInputField'
+import ManualInputField from '../manualInputField/ManualInputField'
 
-import { DARK, LIGHT, ManualInputScreenColors } from '../assets/ColorPalettes'
+import { DARK, LIGHT, ManualInputScreenColors } from '../../assets/ColorPalettes'
 
-export const ManualInputScreen = () => {
+export default function ManualInputScreen() {
   
   const isDarkMode = useColorScheme() === 'dark'
 
   const themeColors = isDarkMode ? DARK.ManualInputScreen : LIGHT.ManualInputScreen
 
   return (
-    <View style={[styles.container, {backgroundColor: themeColors.Background}]}>
+    <View testID='ManualInputScreen' style={[styles.container, {backgroundColor: themeColors.Background}]}>
       <Text style={styles.title}>Astronomical relative position calculator</Text>
       <ManualInputField 
       themeColors={themeColors}
-      isHourAngle={true} 
       fieldName='hour angle'
       fieldUnits={['h', 'm', 's']} 
       unitsMaxValue={[24, 60, 60]}
       style={styles.paragraph} />
 
       <ManualInputField
-      themeColors={themeColors} 
-      isHourAngle={false}
+      themeColors={themeColors}
       fieldName='declination'
       fieldUnits={['º', '´', '´´']} 
       unitsMaxValue={[360, 60, 60]}
