@@ -33,7 +33,7 @@ const ManualInputFieldView = (props: ManualInputFieldViewProps) => {
 
         <View style={[styles.propertyContainer, {backgroundColor: themeColors.PropertyContainer}]}>
           <Text style={[styles.propertyText, {color: themeColors.TextColor}]}>
-            {'Target ' + props.fieldName[0]}
+            {'Target ' + props.fieldName}
           </Text>
 
           <CoordinateInput

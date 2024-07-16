@@ -30,8 +30,10 @@ describe('ManualInputFieldView', () => {
     it('Sets origin field name correctly', () => {
         const testFieldName = 'testField'
         props.fieldName = testFieldName
-        const{queryByText} = render(<ManualInputField {...props}/>)
+        const{queryByText, debug} = render(<ManualInputField {...props}/>)
 
+        debug()
+        
         const element = queryByText('Origin ' + testFieldName)
 
         expect(element).toBeTruthy()
@@ -47,14 +49,14 @@ describe('ManualInputFieldView', () => {
         expect(element).toBeTruthy()
     })
 
-    it('Sets result correctly', () => {
+    it('Sets result correctly', async() => {
         const SaveValues = (index: number, values: string[]) => {}
         const CalculateDistance = () => {return([10, 20, 30])}
         userEvent.setup()
         const{ getByText, getByTestId } = render(<ManualInputFieldView {...props} SaveValues={SaveValues} CalculateDistanceInDegrees={CalculateDistance} />)
 
         const submitButton = getByTestId('submitButton')
-        userEvent.press(submitButton)
+        await userEvent.press(submitButton)
         
         const textQuery = 'Result: '+ '10' + props.fieldUnits[0] + '20' + props.fieldUnits[1] + '30' + props.fieldUnits[2]
         const element = getByText(textQuery)
