@@ -29,7 +29,8 @@ export interface SearchInputScreenColors{
   SearchInput: string,
   SearchInputContainer: string,
   TextColor: string,
-  PlaceholderTextColor: string
+  PlaceholderTextColor: string,
+  Icons: string
 }
 
 export const DARK: ColorPalette = {
@@ -56,11 +57,12 @@ export const DARK: ColorPalette = {
     SearchInput: 'black',
     SearchInputContainer: '#212121',
     TextColor: 'white',
-    PlaceholderTextColor: '#212121'
+    PlaceholderTextColor: '#212121',
+    Icons: "#6b6b6b"
   }
 }
 
-export const LIGHT = {
+export const LIGHT: ColorPalette = {
   Palette: 'light',
   ThemeButton: {
     Icon: '#faee0a',
@@ -84,6 +86,7 @@ export const LIGHT = {
     SearchInput: 'lightblue',
     SearchInputContainer: '#bff2ff',
     TextColor: 'black',
-    PlaceholderTextColor: 'darkgray'
+    PlaceholderTextColor: 'darkgray',
+    Icons: "#212121"
   }
 }
