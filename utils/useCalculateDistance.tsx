@@ -12,7 +12,8 @@ const useCalculateDistance = () => {
     }
 
     const ConvertToSeconds = (declinationInDegrees: number[]) => {
-        let convertedDeclination = declinationInDegrees[0] * (60*60) + declinationInDegrees[1] * 60 + declinationInDegrees[2] 
+        const signSettingMultiplier = declinationInDegrees[0] < 0 ? -1 : 1
+        let convertedDeclination = declinationInDegrees[0] * (60*60) + declinationInDegrees[1] * 60 * signSettingMultiplier + declinationInDegrees[2] * signSettingMultiplier 
 
         return convertedDeclination
     }
