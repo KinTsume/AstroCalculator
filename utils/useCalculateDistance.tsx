@@ -1,4 +1,4 @@
-const useDistanceCalculator = () => {
+const useCalculateDistance = () => {
     
     const CalculateDistance = (originInput: number[], targetInput: number[]) => {
         let originDeclination = ConvertToSeconds(originInput)
@@ -36,4 +36,4 @@ const useDistanceCalculator = () => {
     return {CalculateDistance}
 }
 
-export default useDistanceCalculator
+export default useCalculateDistance
