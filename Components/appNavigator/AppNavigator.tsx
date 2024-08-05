@@ -5,7 +5,7 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import Ionicons from "react-native-ionicons";
 
 import ManualInputScreen from '../manualInputScreen/ManualInputScreen';
-import SearchInputScreen from '../seachInputScreen/SearchInputScreen'
+import SearchInputScreenNavigator from '../searchInputScreenNavigator/SearchInputScreenNavigator'
 import { OptionsScreen } from '../optionsScreen/OptionsScreen';
 
 import { DARK, LIGHT } from '../../assets/ColorPalettes';
@@ -18,7 +18,7 @@ export default function AppNavigator(): React.JSX.Element{
 
   const themeColors = isDarkMode ? DARK.NavigationContainer : LIGHT.NavigationContainer
 
-  const manualInputIcon = <Ionicons testID='navIcon' name={'pencil-outline'} size={30} color={themeColors.Icons} />
+  const manualInputIcon = <Ionicons testID='navIcon' name={'pencil-outline'} size={30} color={themeColors.Icons}/>
   const autoInputIcon = <Ionicons name={'search-outline'} size={30} color={themeColors.Icons} />
   const optionsIcon = <Ionicons name={'settings-outline'} size={30} color={themeColors.Icons} />
 
@@ -45,7 +45,7 @@ export default function AppNavigator(): React.JSX.Element{
       />
       <Tab.Screen 
       name='Search Input' 
-      component={SearchInputScreen}
+      component={SearchInputScreenNavigator}
       options={{
         tabBarIcon: ({focused}) => 
         {

@@ -5,7 +5,6 @@ import CatalogueObjectCard, { CatalogueObjectCardProps } from '../CatalogueObjec
 
 import { DARK } from '../../../assets/ColorPalettes';
 
-
 import getSpectralTypeColors from '../getSpectralTypeColor';
 import getPhotovisualMagnitudeSize from '../getPhotovisualMagnitudeSize';
 

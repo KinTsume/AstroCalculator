@@ -42,7 +42,7 @@ export default function CatalogueObjectCard(props: CatalogueObjectCardProps){
     }
 
     return(
-        <View>
+        <View testID='CatalogueObjectCard'>
             <View>
                 <StarIcon/>
             </View>
