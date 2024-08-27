@@ -1,5 +1,5 @@
 import {describe, it, expect} from '@jest/globals';
-import { render, renderHook, userEvent } from '@testing-library/react-native';
+import { renderHook } from '@testing-library/react-native';
 
 import useCalculateDistance from '../useCalculateDistance';
 
