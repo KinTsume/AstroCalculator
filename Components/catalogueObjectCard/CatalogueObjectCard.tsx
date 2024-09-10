@@ -5,34 +5,46 @@ import { SearchInputScreenColors } from "../../assets/ColorPalettes";
 import getSpectralTypeColors from "./getSpectralTypeColor";
 import getMagnitudeSize from "./getPhotovisualMagnitudeSize";
 
-export interface CatalogueObjectCardProps {
+import useAngleRepresentationUtility from "../../utils/useAngleRepresentationUtility";
+
+export interface CatalogueObject {
     Names: string[],
     HD_ID: number,
-    RA: number[],
-    DE: number[],
+    RA: number,
+    DE: number,
     PhotovisualMagnitude: number,
     SpectralType: string,
     ThemeColors: SearchInputScreenColors
 }
 
-export default function CatalogueObjectCard(props: CatalogueObjectCardProps){
+export default function CatalogueObjectCard(props: CatalogueObject){
 
     const size = getMagnitudeSize(props.PhotovisualMagnitude)
     const color = getSpectralTypeColors(props.SpectralType)
 
-    const getStringFromArray = (namesArray: string[] | number[], units?: string[]) => {
-        let names = namesArray[0]
+    const {convertToArrayRepresentation} = useAngleRepresentationUtility()
+
+    const convertDecimalAngleToArrayAngleText = (decimalAngle: number, units: string[]) => {
+        let arrayAngle = convertToArrayRepresentation(decimalAngle)
+
+        let arrayAngleAsText = convertArrayToTextRepresentation(arrayAngle, units)
+
+        return arrayAngleAsText
+    }
+
+    const convertArrayToTextRepresentation = (array: string[] | number[], units?: string[]) => {
+        let names = array[0]
 
         if(units){
             names += units[0]
-            for(let i = 1; i < namesArray.length; i++){
-                names = names + ', ' + namesArray[i] + units[i]
+            for(let i = 1; i < array.length; i++){
+                names = names + ', ' + array[i] + units[i]
             }
             return names
         }
         
-        for(let i = 1; i < namesArray.length; i++){
-            names = names + ', ' + namesArray[i]
+        for(let i = 1; i < array.length; i++){
+            names = names + ', ' + array[i]
         }
         return names
     }
@@ -47,10 +59,10 @@ export default function CatalogueObjectCard(props: CatalogueObjectCardProps){
                 <StarIcon/>
             </View>
             <View>
-                <Text>Names: {getStringFromArray(props.Names)}</Text>
+                <Text>Names: {convertArrayToTextRepresentation(props.Names)}</Text>
                 <Text>HD ID: {props.HD_ID}</Text>
-                <Text>Right ascension: {getStringFromArray(props.RA, ['h', 'm', 's'])}</Text>
-                <Text>Declination: {getStringFromArray(props.DE, ['º', '\'', '"'])}</Text>
+                <Text>Right ascension: {convertDecimalAngleToArrayAngleText(props.RA, ['h', 'm', 's'])}</Text>
+                <Text>Declination: {convertDecimalAngleToArrayAngleText(props.DE, ['º', '\'', '"'])}</Text>
             </View>
         </View>
     )

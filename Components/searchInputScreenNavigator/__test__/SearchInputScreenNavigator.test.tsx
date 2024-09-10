@@ -10,8 +10,8 @@ import { DARK } from '../../../assets/ColorPalettes';
 const Sirius: CatalogueObject = {
     Names: ['Sirius', '9 Canis Majoris'],
     HD_ID: 48915,
-    RA: [6, 45, 10.1],
-    DE: [-16, 41, 13],
+    RA: 6.752806,
+    DE: -16.68694,
     PhotovisualMagnitude: -1.58,
     SpectralType: 'A0',
     ThemeColors: DARK.SearchInputScreen
@@ -20,8 +20,8 @@ const Sirius: CatalogueObject = {
 const Vega: CatalogueObject = {
     Names: ['Vega'],
     HD_ID: 172167,
-    RA: [18, 36, 57.5],
-    DE: [38, 46, 7],
+    RA: 18.615972,
+    DE: 38.76861,
     PhotovisualMagnitude: -1.58,
     SpectralType: 'A0',
     ThemeColors: DARK.SearchInputScreen
@@ -42,7 +42,7 @@ describe('SearchInputScreenNavigator', () => {
                 result.current.ChangeObject(Sirius)
             })
 
-            expect(result.current.resultRA).toStrictEqual([-11, -51, -47.4])
+            expect(result.current.resultRA).toStrictEqual([-11, 51, 47.4])
         })
 
         it('returns the result DE', () => {
@@ -57,7 +57,7 @@ describe('SearchInputScreenNavigator', () => {
                 result.current.ChangeObject(Sirius)
             })
 
-            expect(result.current.resultDE).toStrictEqual([-55, -27, -20])
+            expect(result.current.resultDE).toStrictEqual([-55, 27, 19.98])
         })
     })
 })

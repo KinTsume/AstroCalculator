@@ -1,14 +1,15 @@
 import { useRef, useState } from "react";
 
 import useCalculateDistance from "../../utils/useCalculateDistance"
+import useAngleRepresentationUtility from "../../utils/useAngleRepresentationUtility";
 import { CatalogueObject } from "../catalogueObjectCard/CatalogueObjectCard";
 import { DARK } from "../../assets/ColorPalettes";
 
 const emptyCatalogueObject: CatalogueObject = {
     Names: [''],
     HD_ID: 0,
-    RA: [0, 0, 0],
-    DE: [0, 0, 0],
+    RA: 0,
+    DE: 0,
     PhotovisualMagnitude: 0,
     SpectralType: 'O0',
     ThemeColors: DARK.SearchInputScreen
@@ -20,7 +21,8 @@ const useSearchInputScreenNavigator = () => {
     const [originObject, setOriginObject] = useState(emptyCatalogueObject)
     const [targetObject, setTargetObject] = useState(emptyCatalogueObject)
 
-    const { CalculateDistance } = useCalculateDistance()
+    const { calculateDistance } = useCalculateDistance()
+    const { convertToArrayRepresentation, convertToDecimalRepresentation } = useAngleRepresentationUtility()
 
     const ChangeSelectedCard = (cardPosition: string) => {
         selectedCard.current = cardPosition
@@ -40,8 +42,11 @@ const useSearchInputScreenNavigator = () => {
         }
     }
 
-    const resultRA = CalculateDistance(originObject.RA, targetObject.RA)
-    const resultDE = CalculateDistance(originObject.DE, targetObject.DE)
+    let distanceRA = calculateDistance(originObject.RA, targetObject.RA)
+    let distanceDE = calculateDistance(originObject.DE, targetObject.DE)
+    
+    const resultRA = convertToArrayRepresentation(distanceRA)
+    const resultDE = convertToArrayRepresentation(distanceDE)
 
     return {originObject, targetObject, selectedCard, resultRA, resultDE, ChangeSelectedCard, ChangeObject}
 }
