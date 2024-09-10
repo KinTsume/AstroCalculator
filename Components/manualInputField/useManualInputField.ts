@@ -1,6 +1,7 @@
 import { useRef } from "react";
 
 import useCalculateDistance from "../../utils/useCalculateDistance";
+import useAngleRepresentationUtility from "../../utils/useAngleRepresentationUtility";
 
 import { ManualInputScreenColors } from '../../assets/ColorPalettes'
 
@@ -14,21 +15,24 @@ export interface ManualInputFieldProps{
 
 const useManualInputField = (props: ManualInputFieldProps) => {
 
-  const originInput = useRef([0, 0, 0])
-  const targetInput = useRef([0, 0, 0])
+  const originInput = useRef(0)
+  const targetInput = useRef(0)
 
-  const { CalculateDistance } = useCalculateDistance()
+  const { calculateDistance } = useCalculateDistance()
+  const { convertToArrayRepresentation, convertToDecimalRepresentation } = useAngleRepresentationUtility()
 
   const SaveValues = (index: number, value: string[]) => {
+
+    let parsedAngle = value.map((x) => parseInt(x))
+    let decimalAngle = convertToDecimalRepresentation(parsedAngle)
+
     switch(index){
       case 0:
-        originInput.current = value.map((x) => parseInt(x))
-        console.log('Set origin Input: ' + originInput.current)
+        originInput.current = decimalAngle
         break;
 
       case 1:
-        targetInput.current = value.map((x) => parseInt(x))
-        console.log('Set target Input: ' + targetInput.current)
+        targetInput.current = decimalAngle
         break;
 
       default:
@@ -37,7 +41,11 @@ const useManualInputField = (props: ManualInputFieldProps) => {
   }
 
   const CalculateDistanceInDegrees = () => {
-    return CalculateDistance(originInput.current, targetInput.current);
+    let distance = targetInput.current - originInput.current
+
+    let distanceArray = convertToArrayRepresentation(distance)
+    
+    return distanceArray;
   }
 
   return {...props, SaveValues, CalculateDistanceInDegrees}

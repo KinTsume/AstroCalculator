@@ -41,8 +41,8 @@ export const DARK: ColorPalette = {
     SliderBackground: '#474747'
   },
   NavigationContainer: {
-    Background: "#070f0f",
-    Icons: "#6b6b6b"
+    Background: "white",
+    Icons: "red"
   },
   ManualInputScreen: {
     Background: 'black',
@@ -71,7 +71,7 @@ export const LIGHT: ColorPalette = {
   },
   NavigationContainer: {
     Background: "#c7fbff",
-    Icons: "#212121"
+    Icons: "blue"
   },
   ManualInputScreen: {
     Background: '#ecf0f1',

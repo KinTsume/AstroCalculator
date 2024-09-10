@@ -16,20 +16,20 @@ export default function AppNavigator(): React.JSX.Element{
 
   const isDarkMode = useColorScheme() === 'dark'
 
-  const themeColors = isDarkMode ? DARK.NavigationContainer : LIGHT.NavigationContainer
+  const themeColors = isDarkMode ? DARK : LIGHT
 
-  const manualInputIcon = <Ionicons testID='navIcon' name={'pencil-outline'} size={30} color={themeColors.Icons}/>
-  const autoInputIcon = <Ionicons name={'search-outline'} size={30} color={themeColors.Icons} />
-  const optionsIcon = <Ionicons name={'settings-outline'} size={30} color={themeColors.Icons} />
+  const manualInputIcon = <Ionicons testID='navIcon' name={'pencil-outline'} size={100} color={themeColors.NavigationContainer.Icons}/>
+  const autoInputIcon = <Ionicons name={'search-circle'}/>
+  const optionsIcon = <Ionicons name={'settings-outline'} size={30} color={themeColors.NavigationContainer.Icons} />
 
   return(
     <Tab.Navigator 
       initialRouteName='manualInput'
-      sceneContainerStyle={{backgroundColor: themeColors.Background}}
+      sceneContainerStyle={{backgroundColor: themeColors.NavigationContainer.Background}}
       screenOptions={{
         headerShown: false,
         tabBarStyle:{
-          backgroundColor: themeColors.Background
+          backgroundColor: themeColors.NavigationContainer.Background
         },
       }}>
 

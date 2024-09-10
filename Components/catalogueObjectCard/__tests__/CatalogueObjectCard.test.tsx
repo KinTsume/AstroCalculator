@@ -1,18 +1,18 @@
 import {describe, it, expect} from '@jest/globals';
 import { render, renderHook, userEvent } from '@testing-library/react-native';
 
-import CatalogueObjectCard, { CatalogueObjectCardProps } from '../CatalogueObjectCard';
+import CatalogueObjectCard, { CatalogueObject } from '../CatalogueObjectCard';
 
 import { DARK } from '../../../assets/ColorPalettes';
 
 import getSpectralTypeColors from '../getSpectralTypeColor';
 import getPhotovisualMagnitudeSize from '../getPhotovisualMagnitudeSize';
 
-let props: CatalogueObjectCardProps = {
+let props: CatalogueObject = {
     Names: ['Sirius', '9 Canis Majoris'],
     HD_ID: 48915,
-    RA: [6, 45, 10.1],
-    DE: [-16, 41, 13],
+    RA: 6.752806,
+    DE: -16.68694,
     PhotovisualMagnitude: -1.58,
     SpectralType: 'A0',
     ThemeColors: DARK.SearchInputScreen
@@ -76,9 +76,8 @@ describe('CatalogueObjectCard', () => {
     })
 
     it('Sets the Declination field', () => {
-        const{debug,queryByText} = render(<CatalogueObjectCard {...props}/>)
-        debug()
-        let declination = '-16º, 41\', 13"'
+        const{queryByText} = render(<CatalogueObjectCard {...props}/>)
+        let declination = `-16º, 41', 12.98"`
         const element = queryByText('Declination: ' + declination)
 
         expect(element).toBeTruthy();

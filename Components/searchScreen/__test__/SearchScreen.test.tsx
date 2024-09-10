@@ -45,7 +45,6 @@ describe('SearchScreen', () => {
             })
 
             const result = getAllByTestId('CatalogueObjectCard')
-            debug()
 
             expect(result.length).toBe(5)
         })

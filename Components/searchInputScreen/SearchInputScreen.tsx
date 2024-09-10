@@ -2,16 +2,16 @@ import {View, Text, TextInput, StyleSheet, useColorScheme} from 'react-native'
 import Ionicons from "react-native-ionicons";
 
 import CatalogueObjectCard from '../catalogueObjectCard/CatalogueObjectCard';
-import { CatalogueObjectCardProps } from '../catalogueObjectCard/CatalogueObjectCard'
+import { CatalogueObject } from '../catalogueObjectCard/CatalogueObjectCard'
 
 import { DARK, LIGHT } from '../../assets/ColorPalettes'
 
 
 export interface SearchInputScreenProps {
-  OriginObject: CatalogueObjectCardProps,
-  TargetObject: CatalogueObjectCardProps,
-  ResultRA: number[],
-  ResultDE: number[]
+  originObject: CatalogueObject,
+  targetObject: CatalogueObject,
+  resultRA: number[],
+  resultDE: number[]
 }
 
 const SearchInputScreen = (props: SearchInputScreenProps) => {
@@ -28,19 +28,19 @@ const SearchInputScreen = (props: SearchInputScreenProps) => {
           <SearchButton/>
         </View>
 
-        <CatalogueObjectCard {...props.OriginObject}/>
+        <CatalogueObjectCard {...props.originObject}/>
 
         <View>
           <Text>Target star</Text>
           <SearchButton/>
         </View>
 
-        <CatalogueObjectCard {...props.TargetObject}/>
+        <CatalogueObjectCard {...props.targetObject}/>
 
         <View>
           <Text>Target relative position</Text>
-          <Text>{'RA: ' + props.ResultRA[0] + 'h ' + props.ResultRA[1] + 'm ' + props.ResultRA[2] + 's'}</Text>
-          <Text>{'DE: ' + props.ResultDE[0] + 'º ' + props.ResultDE[1] + '\' ' + props.ResultDE[2] + '"'}</Text>
+          <Text>{'RA: ' + props.resultRA[0] + 'h ' + props.resultRA[1] + 'm ' + props.resultRA[2] + 's'}</Text>
+          <Text>{'DE: ' + props.resultDE[0] + 'º ' + props.resultDE[1] + '\' ' + props.resultDE[2] + '"'}</Text>
         </View>
       </View>
     )

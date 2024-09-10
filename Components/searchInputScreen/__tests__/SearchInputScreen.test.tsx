@@ -4,35 +4,35 @@ import { render, renderHook, userEvent } from '@testing-library/react-native';
 import SearchInputScreen from '../SearchInputScreen';
 import { SearchInputScreenProps } from '../SearchInputScreen';
 
-import { CatalogueObjectCardProps } from '../../catalogueObjectCard/CatalogueObjectCard';
+import { CatalogueObject } from '../../catalogueObjectCard/CatalogueObjectCard';
 
 import { DARK } from '../../../assets/ColorPalettes';
 
-const originObject: CatalogueObjectCardProps = {
+const originObject: CatalogueObject = {
     Names: ['Vega', 'alf Lyr', '3 Lyr'],
     HD_ID: 172167,
-    RA: [18, 36, 56.33],
-    DE: [+38, 47, 1.28],
+    RA: 18.615972,
+    DE: 38.76861,
     PhotovisualMagnitude: 0.14,
     SpectralType: 'A0',
     ThemeColors: DARK.SearchInputScreen
 }
 
-const targetObject: CatalogueObjectCardProps = {
+const targetObject: CatalogueObject = {
     Names: ['Sirius', 'Dog Star', 'Sirius A'],
     HD_ID: 48915,
-    RA: [6, 45, 8.91],
-    DE: [-16, 42, 58.01],
+    RA: 6.752806,
+    DE: -16.68694,
     PhotovisualMagnitude: -1.58,
     SpectralType: 'A0',
     ThemeColors: DARK.SearchInputScreen
 }
 
 let props: SearchInputScreenProps = {
-    OriginObject: originObject,
-    TargetObject: targetObject,
-    ResultRA: [-11, 51, 47.42],
-    ResultDE: [-55, 29, 59.29]
+    originObject: originObject,
+    targetObject: targetObject,
+    resultRA: [-11, 51, 47.42],
+    resultDE: [-55, 29, 59.29]
 }
 
 describe('SearchInputScreen', () => {
