@@ -1,4 +1,4 @@
-import {describe, it, expect} from '@jest/globals';
+import { jest, describe, it, expect, beforeEach, afterEach } from '@jest/globals';
 import { render, renderHook, userEvent } from '@testing-library/react-native';
 import useManualInputField, { ManualInputFieldProps } from '../useManualInputField';
 import ManualInputFieldView from '../ManualInputFieldView';
@@ -13,6 +13,14 @@ const props: ManualInputFieldProps = {
     unitsMaxValue: [360, 60, 60],
     style: {}
 }
+
+beforeEach(() => {
+    jest.useFakeTimers()
+})
+
+afterEach(() => {
+    jest.useRealTimers()
+})
 
 describe('ManualInputField', () => {
     describe('Logic', () => {
@@ -32,8 +40,6 @@ describe('ManualInputField', () => {
             const testFieldName = 'testField'
             props.fieldName = testFieldName
             const{queryByText, debug} = render(<ManualInputField {...props}/>)
-    
-            debug()
             
             const element = queryByText('Origin ' + testFieldName)
     

@@ -22,13 +22,13 @@ export default function SearchInputScreenNavigator(props: SearchInputScreenNavig
     const {ChangeObject, selectedCard, ...homeScreenProps} = props
     const searchScreenProps = {ChangeObject}
 
-    const homeScreen = () => {return <SearchInputScreen {...homeScreenProps}/>}
-    const searchScreen = () => {return <SearchScreen {...searchScreenProps}/>}
+    const HomeScreenComponent = () => {return <SearchInputScreen {...homeScreenProps}/>}
+    const SearchScreenComponent = () => {return <SearchScreen {...searchScreenProps}/>}
     
     return(
         <Stack.Navigator>
-            <Stack.Screen name="Home" component={homeScreen} />
-            <Stack.Screen name="SearchScreen" component={searchScreen} />
+            <Stack.Screen name="Home" component={HomeScreenComponent} />
+            <Stack.Screen name="SearchScreen" component={SearchScreenComponent} />
         </Stack.Navigator>
     )
 }

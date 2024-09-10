@@ -38,7 +38,7 @@ const CatalogueObjectsContainer = (catalogueObjects: Array<CatalogueObject>) => 
 
     for(let i = 0; i < catalogueObjects.length; i++){
         const element = catalogueObjects[i]
-        cardsArray.push(<CatalogueObjectCard {...element}/>)
+        cardsArray.push(<CatalogueObjectCard key={i} {...element}/>)
     }
 
     //console.log(catalogueObjects.length)

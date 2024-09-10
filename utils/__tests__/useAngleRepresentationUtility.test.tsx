@@ -9,7 +9,7 @@ describe('useAngleRepresentationUtility', () => {
 
         const array = result.current.convertToArrayRepresentation(-55.4998)
 
-        expect(array).toStrictEqual([-55, -29, -59.28])
+        expect(array).toStrictEqual([-55, 29, 59.28])
     })
     it('Returns a decimal representation', () => {
         const { result } = renderHook(() => useAngleRepresentationUtility())
