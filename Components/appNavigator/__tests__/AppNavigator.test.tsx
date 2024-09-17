@@ -60,14 +60,14 @@ describe('AppNavigator', () => {
         })
     })
     it("Renders the icons", () => {
-        const{getAllByTestId, getByText} = render(
+        const{queryAllByTestId} = render(
             <NavigationContainer>
                 <AppNavigator/>
             </NavigationContainer>
         )
 
-        const icon = getAllByTestId("navIcon")
+        const icon = queryAllByTestId("navIcon")
 
-        expect(icon).toBeTruthy()
+        expect(icon.length).toBe(3*2) //It generates a second copy for each icon, so the test should search for 6 icons 
     })
 })

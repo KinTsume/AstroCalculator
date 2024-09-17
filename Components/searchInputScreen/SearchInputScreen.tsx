@@ -1,5 +1,5 @@
-import {View, Text, TextInput, StyleSheet, useColorScheme} from 'react-native'
-import Ionicons from "react-native-ionicons";
+import { View, SafeAreaView, Text, StyleSheet, useColorScheme } from 'react-native'
+import { IconButton } from 'react-native-paper';
 
 import CatalogueObjectCard from '../catalogueObjectCard/CatalogueObjectCard';
 import { CatalogueObject } from '../catalogueObjectCard/CatalogueObjectCard'
@@ -19,30 +19,36 @@ const SearchInputScreen = (props: SearchInputScreenProps) => {
 
     const themeColors = isDarkMode ? DARK.SearchInputScreen : LIGHT.SearchInputScreen
 
-    const SearchButton = () => <Ionicons testID='SearchIcon' name={'search-outline'} size={30} color={themeColors.Icons}/>
-
+    //const SearchButton = () => <Ionicons testID='SearchIcon' name='search-outline' size={10} color={themeColors.Icons}/>
+    const SearchButton = () => <IconButton testID='SearchIcon' icon='database-search-outline' size={50} iconColor={themeColors.Icons} onPress={() => {}}></IconButton>
     return (
-      <View testID='SearchInputScreen' style={[styles.container, {backgroundColor: themeColors.Background}]}>
-        <View>
-          <Text>Origin star</Text>
-          <SearchButton/>
+      <SafeAreaView testID='SearchInputScreen' style={[styles.container, {backgroundColor: themeColors.Background}]}>
+        <Text style={styles.title}>Search input</Text>
+
+        <View style={styles.field}>
+          <View style={styles.search}>
+            <SearchButton/>
+            <Text style={styles.fieldName}>Origin star</Text>
+          </View>
+
+          <CatalogueObjectCard {...props.originObject}/>
         </View>
 
-        <CatalogueObjectCard {...props.originObject}/>
+        <View style={styles.field}>
+          <View style={styles.search}>
+            <SearchButton/>
+            <Text style={styles.fieldName}>Target star</Text>
+          </View>
 
-        <View>
-          <Text>Target star</Text>
-          <SearchButton/>
+          <CatalogueObjectCard {...props.targetObject}/>
         </View>
 
-        <CatalogueObjectCard {...props.targetObject}/>
-
-        <View>
-          <Text>Target relative position</Text>
-          <Text>{'RA: ' + props.resultRA[0] + 'h ' + props.resultRA[1] + 'm ' + props.resultRA[2] + 's'}</Text>
-          <Text>{'DE: ' + props.resultDE[0] + 'º ' + props.resultDE[1] + '\' ' + props.resultDE[2] + '"'}</Text>
+        <View style={styles.field}>
+          <Text style={styles.fieldName}>Target relative position</Text>
+          <Text style={styles.text}>{'RA: ' + props.resultRA[0] + 'h ' + props.resultRA[1] + 'm ' + props.resultRA[2] + 's'}</Text>
+          <Text style={styles.text}>{'DE: ' + props.resultDE[0] + 'º ' + props.resultDE[1] + '\' ' + props.resultDE[2] + '"'}</Text>
         </View>
-      </View>
+      </SafeAreaView>
     )
 }
 
@@ -53,33 +59,34 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    padding: 8,
-    paddingVertical: 20
-  },
-  inputContainer: {
-    fontSize: 20,
-    padding: 15,
-    borderRadius: 20
+    paddingVertical: 20,
+    backgroundColor: 'green',
   },
   title: {
-    flex: 2,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginVertical: 24,
-    fontSize: 30,
-    fontWeight: 'bold',
-    textAlign: 'center'
-  },
-  paragraph: {
     flex: 1,
     justifyContent: 'center',
-    margin: 24,
-    fontSize: 50,
+    alignItems: 'center',
+    fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  inputText: {
-    padding: 10,
-    borderRadius: 10
+  field: {
+    flex: 3, 
+    paddingVertical: 30,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  fieldName: {
+    fontSize: 30,
+  },
+  search: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingBottom: 10,
+  },
+  text: {
+    fontSize: 20,
   }
+
 });

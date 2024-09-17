@@ -12,7 +12,7 @@ export default function ManualInputScreen() {
 
   return (
     <View testID='ManualInputScreen' style={[styles.container, {backgroundColor: themeColors.Background}]}>
-      <Text style={styles.title}>Astronomical relative position calculator</Text>
+      <Text style={styles.title}>Manual input</Text>
       <ManualInputField 
       themeColors={themeColors}
       fieldName='hour angle'

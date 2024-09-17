@@ -45,9 +45,10 @@ describe('SearchInputScreen', () => {
     })
 
     it('Renders 2 search icons', () => {
-        const{ getAllByTestId } = render(<SearchInputScreen {...props}/>)
+        const{ queryAllByTestId } = render(<SearchInputScreen {...props}/>)
 
-        const result = getAllByTestId('SearchIcon')
+        const result = queryAllByTestId('SearchIcon')
+        console.log(result.length)
 
         expect(result.length).toBe(2)
     })

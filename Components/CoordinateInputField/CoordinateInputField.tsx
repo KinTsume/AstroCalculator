@@ -8,7 +8,6 @@ export interface InputFieldProps{
   unitsMaxValue: number[],
   saveIndex: number,
   themeColors: ManualInputScreenColors,
-  style: any,
   SaveValues: (index: number, value: string[]) => void
 }
 
@@ -21,7 +20,7 @@ const CoordinateInputField = (props: InputFieldProps) => {
     const themeColors = props.themeColors
 
     return (
-        <View style={[props.style, styles.container, {backgroundColor: themeColors.PropertyInput}]}>
+        <View style={[styles.container, {backgroundColor: themeColors.PropertyInput}]}>
             <TextInput 
             testID='inputSubfield'
             textAlign='center'
@@ -41,11 +40,9 @@ const CoordinateInputField = (props: InputFieldProps) => {
             onSubmitEditing = {() => {
               secondTextInput.current?.focus()
               props.SaveValues(props.saveIndex, inputTexts)
-              console.log('Submitted editing')
             }}
             onEndEditing={() => {
               props.SaveValues(props.saveIndex, inputTexts)
-              console.log('End editing')
             }}
             blurOnSubmit={false}
             placeholderTextColor={themeColors.PlaceholderTextColor}
@@ -80,7 +77,7 @@ const CoordinateInputField = (props: InputFieldProps) => {
             />
         
             <Text style={[styles.text, {color: themeColors.TextColor}]} testID='inputSubfieldText'>{props.fieldUnits[1]}</Text>
-        
+            
             <TextInput 
             testID='inputSubfield'
             textAlign='center'
@@ -114,15 +111,19 @@ export default CoordinateInputField
 const styles = StyleSheet.create({
     container: {
       justifyContent: 'center',
-      flexDirection: 'row'
+      flexDirection: 'row',
+      paddingRight: 10,
+      borderRadius: 5
     },
   
     textInputStyle: {
-      fontSize: 20
+      fontSize: 20,
+      alignContent: 'center',
+      justifyContent: 'center',
     },
   
     text: {
       fontSize: 20,
-      marginTop: 6
+      marginTop: 6,
     }
   })
