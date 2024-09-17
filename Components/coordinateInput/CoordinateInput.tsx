@@ -9,7 +9,6 @@ export interface CoordinateInputProps{
   fieldUnits: string[],
   unitsMaxValue: number[],
   isOrigin: boolean,
-  style: any,
   SaveValues: (index: number, value: string[]) => void
 }
 
@@ -17,18 +16,22 @@ function CoordinateInput(props: CoordinateInputProps) {
   if(props.isOrigin)
   {
     return (
-      <CoordinateInputField
-      {...props}
-      saveIndex={0}
-      />
+      <View>
+        <CoordinateInputField
+        {...props}
+        saveIndex={0}
+        />
+      </View>
     )
   }
 
   return (
-    <CoordinateInputField
-    {...props}
-    saveIndex={1}
-    />
+    <View>
+      <CoordinateInputField
+      {...props}
+      saveIndex={1}
+      />
+    </View>
   )  
 }
 
@@ -37,15 +40,6 @@ export default CoordinateInput
 const styles = StyleSheet.create({
   container: {
     justifyContent: 'center',
-    flexDirection: 'row'
-  },
-
-  textInputStyle: {
-    fontSize: 20
-  },
-
-  text: {
-    fontSize: 20,
-    marginTop: 6
+    flexDirection: 'row',
   }
 })

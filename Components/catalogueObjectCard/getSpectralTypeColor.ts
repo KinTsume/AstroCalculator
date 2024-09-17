@@ -1,3 +1,5 @@
+
+import { DARK } from "../../assets/ColorPalettes"
 const getSpectralTypeColor = (spectralType: string): string => {
     switch(spectralType){
         case 'O':
@@ -22,7 +24,7 @@ const getSpectralTypeColor = (spectralType: string): string => {
             return "#FC7E35"
 
         default:
-            return "#000000"
+            return DARK.SearchInputScreen.Icons
 
 
     }

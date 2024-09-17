@@ -26,8 +26,12 @@ export default function SearchInputScreenNavigator(props: SearchInputScreenNavig
     const SearchScreenComponent = () => {return <SearchScreen {...searchScreenProps}/>}
     
     return(
-        <Stack.Navigator>
-            <Stack.Screen name="Home" component={HomeScreenComponent} />
+        <Stack.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}>
+            <Stack.Screen name="Home" component={HomeScreenComponent} 
+            />
             <Stack.Screen name="SearchScreen" component={SearchScreenComponent} />
         </Stack.Navigator>
     )

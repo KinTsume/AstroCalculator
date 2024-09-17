@@ -1,6 +1,7 @@
 import React from 'react';
 import {View, Text, Image, useColorScheme} from 'react-native';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { Icon } from 'react-native-paper';
 
 import Ionicons from "react-native-ionicons";
 
@@ -18,9 +19,9 @@ export default function AppNavigator(): React.JSX.Element{
 
   const themeColors = isDarkMode ? DARK : LIGHT
 
-  const manualInputIcon = <Ionicons testID='navIcon' name={'pencil-outline'} size={100} color={themeColors.NavigationContainer.Icons}/>
-  const autoInputIcon = <Ionicons name={'search-circle'}/>
-  const optionsIcon = <Ionicons name={'settings-outline'} size={30} color={themeColors.NavigationContainer.Icons} />
+  const manualInputIcon = <Icon testID='navIcon' source={'pencil-outline'} size={30} color={themeColors.NavigationContainer.Icons}/>
+  const autoInputIcon = <Icon source={'magnify'} size={30} color={themeColors.NavigationContainer.Icons}/>
+  const optionsIcon = <Icon source={'cog-outline'} size={30} color={themeColors.NavigationContainer.Icons} />
 
   return(
     <Tab.Navigator 

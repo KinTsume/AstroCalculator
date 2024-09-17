@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import {View, Text, TextInput, Pressable, StyleSheet} from 'react-native'
 
 import CoordinateInput from '../coordinateInput/CoordinateInput'
-import { ManualInputScreenColors } from '../../assets/ColorPalettes'
 import { ManualInputFieldProps } from './useManualInputField'
 
 export interface ManualInputFieldViewProps extends ManualInputFieldProps {
@@ -105,7 +104,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     justifyContent: 'center',
     alignItems: 'flex-end',
-    fontSize: 20
+    fontSize: 20,
+    paddingBottom: 5
   }
 
 })
