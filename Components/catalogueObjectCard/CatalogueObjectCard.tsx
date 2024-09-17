@@ -50,7 +50,7 @@ export default function CatalogueObjectCard(props: CatalogueObject){
         return names
     }
 
-    const StarIcon = () => ( <Icon source='creation' size={size} color={color}></Icon>)
+    const StarIcon = () => (<View testID='CatalogueObjectCardIcon'><Icon source='creation' size={size} color={color}></Icon></View>)
         //return <Ionicons testID='CatalogueObjectCardIcon' name='star' size={size} color={color} />
 
     return(

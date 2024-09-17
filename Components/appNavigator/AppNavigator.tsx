@@ -19,9 +19,9 @@ export default function AppNavigator(): React.JSX.Element{
 
   const themeColors = isDarkMode ? DARK : LIGHT
 
-  const manualInputIcon = <Icon testID='navIcon' source={'pencil-outline'} size={30} color={themeColors.NavigationContainer.Icons}/>
-  const autoInputIcon = <Icon source={'magnify'} size={30} color={themeColors.NavigationContainer.Icons}/>
-  const optionsIcon = <Icon source={'cog-outline'} size={30} color={themeColors.NavigationContainer.Icons} />
+  const manualInputIcon = <View testID='navIcon'><Icon source={'pencil-outline'} size={30} color={themeColors.NavigationContainer.Icons}/></View>
+  const autoInputIcon = <View testID='navIcon'><Icon source={'magnify'} size={30} color={themeColors.NavigationContainer.Icons}/></View>
+  const optionsIcon = <View testID='navIcon'><Icon source={'cog-outline'} size={30} color={themeColors.NavigationContainer.Icons} /></View>
 
   return(
     <Tab.Navigator 

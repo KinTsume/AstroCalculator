@@ -20,7 +20,7 @@ const SearchInputScreen = (props: SearchInputScreenProps) => {
     const themeColors = isDarkMode ? DARK.SearchInputScreen : LIGHT.SearchInputScreen
 
     //const SearchButton = () => <Ionicons testID='SearchIcon' name='search-outline' size={10} color={themeColors.Icons}/>
-    const SearchButton = () => <IconButton icon='database-search-outline' size={50} iconColor={themeColors.Icons} onPress={() => {}}></IconButton>
+    const SearchButton = () => <IconButton testID='SearchIcon' icon='database-search-outline' size={50} iconColor={themeColors.Icons} onPress={() => {}}></IconButton>
     return (
       <SafeAreaView testID='SearchInputScreen' style={[styles.container, {backgroundColor: themeColors.Background}]}>
         <Text style={styles.title}>Search input</Text>

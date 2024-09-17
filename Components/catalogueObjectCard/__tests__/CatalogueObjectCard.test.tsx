@@ -7,6 +7,7 @@ import { DARK } from '../../../assets/ColorPalettes';
 
 import getSpectralTypeColors from '../getSpectralTypeColor';
 import getPhotovisualMagnitudeSize from '../getPhotovisualMagnitudeSize';
+import { ReactTestInstance } from 'react-test-renderer';
 
 let props: CatalogueObject = {
     Names: ['Sirius', '9 Canis Majoris'],
@@ -20,7 +21,9 @@ let props: CatalogueObject = {
 
 describe('CatalogueObjectCard', () => {
     it('Renders the icon', () => {
-        const{queryByTestId} = render(<CatalogueObjectCard {...props}/>)
+        const{queryByTestId, debug} = render(<CatalogueObjectCard {...props}/>)
+
+        debug()
 
         const element = queryByTestId('CatalogueObjectCardIcon')
 
@@ -29,11 +32,11 @@ describe('CatalogueObjectCard', () => {
 
     it('Sets the icon color according to the spectral type value', () => {
         props.SpectralType = 'F'
-        const{debug, getByTestId} = render(<CatalogueObjectCard {...props}/>)
+        const{getByTestId, debug} = render(<CatalogueObjectCard {...props}/>)
 
-        const element = getByTestId('CatalogueObjectCardIcon')
+        const element = getByTestId('CatalogueObjectCardIcon').children[0] as ReactTestInstance
 
-        const color = element.props.style[0].color
+        const color = element.props.color
 
         expect(color).toBe('#FFFFE0');
     })
@@ -42,9 +45,9 @@ describe('CatalogueObjectCard', () => {
         props.PhotovisualMagnitude = 2.5
         const{getByTestId} = render(<CatalogueObjectCard {...props}/>)
 
-        const element = getByTestId('CatalogueObjectCardIcon')
+        const element = getByTestId('CatalogueObjectCardIcon').children[0] as ReactTestInstance
 
-        const size = element.props.style[0].fontSize
+        const size = element.props.size
 
         expect(size).toBe(50);
     })

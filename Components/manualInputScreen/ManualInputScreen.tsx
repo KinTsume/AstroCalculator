@@ -10,8 +10,6 @@ export default function ManualInputScreen() {
 
   const themeColors = isDarkMode ? DARK.ManualInputScreen : LIGHT.ManualInputScreen
 
-  console.log(themeColors)
-
   return (
     <View testID='ManualInputScreen' style={[styles.container, {backgroundColor: themeColors.Background}]}>
       <Text style={styles.title}>Manual input</Text>
