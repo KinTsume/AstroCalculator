@@ -1,6 +1,9 @@
 
 import { DARK } from "../../assets/ColorPalettes"
-const getSpectralTypeColor = (spectralType: string): string => {
+const getSpectralTypeColor = (rawSpectralType: string): string => {
+
+    const spectralType = rawSpectralType[0]
+
     switch(spectralType){
         case 'O':
             return "#0000FF"

@@ -7,7 +7,6 @@ import { DARK } from '../../../assets/ColorPalettes';
 
 const props: InputFieldProps = {
     themeColors: DARK.ManualInputScreen,
-    style: {},
     unitsMaxValue: [24, 60, 60],
     fieldUnits: ['h', 'm', 's'],
     saveIndex: 0,

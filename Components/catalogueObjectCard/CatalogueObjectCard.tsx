@@ -51,25 +51,45 @@ export default function CatalogueObjectCard(props: CatalogueObject){
     }
 
     const StarIcon = () => (<View testID='CatalogueObjectCardIcon'><Icon source='creation' size={size} color={color}></Icon></View>)
-        //return <Ionicons testID='CatalogueObjectCardIcon' name='star' size={size} color={color} />
 
     return(
-        <View testID='CatalogueObjectCard' style={{flex: 1, flexDirection: 'row'}}>
-            <View style={{justifyContent: 'center', alignSelf: 'center', padding: 10}}>
+        <View testID='CatalogueObjectCard' style={[styles.container, {backgroundColor: props.ThemeColors.Background}]}>
+            <View style={styles.iconContainer}>
                 <StarIcon/>
             </View>
-            <View style={{alignSelf: 'center', padding: 10}}>
-                <Text style={styles.text}>Names: {convertArrayToTextRepresentation(props.Names)}</Text>
-                <Text style={styles.text}>HD ID: {props.HD_ID}</Text>
-                <Text style={styles.text}>Right ascension: {convertDecimalAngleToArrayAngleText(props.RA, ['h', 'm', 's'])}</Text>
-                <Text style={styles.text}>Declination: {convertDecimalAngleToArrayAngleText(props.DE, ['º', '\'', '"'])}</Text>
+            <View style={styles.infoContainer}>
+                <Text style={[styles.text, {color: props.ThemeColors.TextColor}]}>Names: {convertArrayToTextRepresentation(props.Names)}</Text>
+                <Text style={[styles.text, {color: props.ThemeColors.TextColor}]}>HD ID: {props.HD_ID}</Text>
+                <Text style={[styles.text, {color: props.ThemeColors.TextColor}]}>Right ascension: {convertDecimalAngleToArrayAngleText(props.RA, ['h', 'm', 's'])}</Text>
+                <Text style={[styles.text, {color: props.ThemeColors.TextColor}]}>Declination: {convertDecimalAngleToArrayAngleText(props.DE, ['º', '\'', '"'])}</Text>
             </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+        borderRadius: 20,
+        borderTopColor: '#1f1f1f',
+        borderLeftColor: '#1f1f1f',
+        borderBottomColor: '#242424',
+        borderRightColor: '#242424',
+        borderStyle: 'solid',
+        borderWidth: 8,
+    },
+    iconContainer: {
+        justifyContent: 'center', 
+        alignSelf: 'center', 
+        padding: 10,
+    },
+    infoContainer: {
+        alignSelf: 'center',
+        padding: 10
+    },
     text: {
-        fontSize: 20,
+        fontSize: 15,
+        flex: 0.25
     }
 })

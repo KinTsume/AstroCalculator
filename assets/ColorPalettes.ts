@@ -56,7 +56,7 @@ export const DARK: ColorPalette = {
     Background: 'black',
     SearchInput: 'black',
     SearchInputContainer: '#212121',
-    TextColor: 'white',
+    TextColor: 'gray',
     PlaceholderTextColor: '#212121',
     Icons: "#6b6b6b"
   }

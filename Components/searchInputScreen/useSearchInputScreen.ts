@@ -15,8 +15,7 @@ const emptyCatalogueObject: CatalogueObject = {
     ThemeColors: DARK.SearchInputScreen
 }
 
-const useSearchInputScreenNavigator = () => {
-    const selectedCard = useRef('origin')
+const useSearchInputScreen = ({navigation, route}: any) => {
 
     const [originObject, setOriginObject] = useState(emptyCatalogueObject)
     const [targetObject, setTargetObject] = useState(emptyCatalogueObject)
@@ -24,12 +23,14 @@ const useSearchInputScreenNavigator = () => {
     const { calculateDistance } = useCalculateDistance()
     const { convertToArrayRepresentation, convertToDecimalRepresentation } = useAngleRepresentationUtility()
 
-    const ChangeSelectedCard = (cardPosition: string) => {
-        selectedCard.current = cardPosition
+    if(route.params)
+    {
+        console.log(route.params.selectedObject)
     }
+    console.log("Params is undefined")
 
-    const ChangeObject = (catalogueObject: CatalogueObject) => {
-        switch(selectedCard.current){
+    const ChangeObject = (catalogueObject: CatalogueObject, positionToChange: string) => {
+        switch(positionToChange){
             case 'origin':
                 setOriginObject(catalogueObject)
                 break;
@@ -48,7 +49,7 @@ const useSearchInputScreenNavigator = () => {
     const resultRA = convertToArrayRepresentation(distanceRA)
     const resultDE = convertToArrayRepresentation(distanceDE)
 
-    return {originObject, targetObject, selectedCard, resultRA, resultDE, ChangeSelectedCard, ChangeObject}
+    return {originObject, targetObject, resultRA, resultDE, ChangeObject, navigation}
 }
 
-export default useSearchInputScreenNavigator
+export default useSearchInputScreen
