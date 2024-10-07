@@ -8,31 +8,31 @@ import { CatalogueObject } from "../catalogueObjectCard/CatalogueObjectCard";
 interface SearchInputScreenNavigatorViewProps {
     originObject: CatalogueObject, 
     targetObject: CatalogueObject,
-    selectedCard: string,
-    resultRA: number[], 
-    resultDE: number[], 
-    ChangeSelectedCard: (cardPosition: string) => void, 
-    ChangeObject: (catalogueObject: CatalogueObject) => void
+    SetObject: (catalogueObject: CatalogueObject, positionToSet: string) => void,
 } 
 
 const Stack = createNativeStackNavigator();
 
-export default function SearchInputScreenNavigator(props: SearchInputScreenNavigatorViewProps):React.JSX.Element {
+const SearchInputScreenNavigatorView = (props: SearchInputScreenNavigatorViewProps) => {
 
-    const {ChangeObject, selectedCard, ...homeScreenProps} = props
-    const searchScreenProps = {ChangeObject}
+    const {SetObject, ...homeScreenProps} = props
+    const searchScreenProps = {SetObject}
 
-    const HomeScreenComponent = () => {return <SearchInputScreen {...homeScreenProps}/>}
-    const SearchScreenComponent = () => {return <SearchScreen {...searchScreenProps}/>}
+    const InputScreen = (inputProps: any) => (<SearchInputScreen 
+        navigation={inputProps.navigation} 
+        route={inputProps.route}
+        {...props} />)
     
     return(
         <Stack.Navigator
             screenOptions={{
                 headerShown: false,
             }}>
-            <Stack.Screen name="Home" component={HomeScreenComponent} 
+            <Stack.Screen name="SearchInputScreen" component={InputScreen} 
             />
-            <Stack.Screen name="SearchScreen" component={SearchScreenComponent} />
+            <Stack.Screen name="SearchScreen" component={SearchScreen} />
         </Stack.Navigator>
     )
 }
+
+export default SearchInputScreenNavigatorView

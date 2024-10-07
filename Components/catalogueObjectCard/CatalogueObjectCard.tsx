@@ -1,7 +1,9 @@
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet, useColorScheme } from "react-native"
 import Ionicons from "react-native-ionicons";
 import { Icon } from "react-native-paper";
 import { SearchInputScreenColors } from "../../assets/ColorPalettes";
+
+import { DARK, LIGHT } from "../../assets/ColorPalettes";
 
 import getSpectralTypeColors from "./getSpectralTypeColor";
 import getMagnitudeSize from "./getPhotovisualMagnitudeSize";
@@ -15,10 +17,12 @@ export interface CatalogueObject {
     DE: number,
     PhotovisualMagnitude: number,
     SpectralType: string,
-    ThemeColors: SearchInputScreenColors
 }
 
 export default function CatalogueObjectCard(props: CatalogueObject){
+    const isDarkMode = useColorScheme() === 'dark'
+
+    const themeColors = isDarkMode ? DARK.SearchInputScreen : LIGHT.SearchInputScreen
 
     const size = getMagnitudeSize(props.PhotovisualMagnitude)
     const color = getSpectralTypeColors(props.SpectralType)
@@ -51,25 +55,45 @@ export default function CatalogueObjectCard(props: CatalogueObject){
     }
 
     const StarIcon = () => (<View testID='CatalogueObjectCardIcon'><Icon source='creation' size={size} color={color}></Icon></View>)
-        //return <Ionicons testID='CatalogueObjectCardIcon' name='star' size={size} color={color} />
 
     return(
-        <View testID='CatalogueObjectCard' style={{flex: 1, flexDirection: 'row'}}>
-            <View style={{justifyContent: 'center', alignSelf: 'center', padding: 10}}>
+        <View testID='CatalogueObjectCard' style={[styles.container, {backgroundColor: themeColors.Background}]}>
+            <View style={styles.iconContainer}>
                 <StarIcon/>
             </View>
-            <View style={{alignSelf: 'center', padding: 10}}>
-                <Text style={styles.text}>Names: {convertArrayToTextRepresentation(props.Names)}</Text>
-                <Text style={styles.text}>HD ID: {props.HD_ID}</Text>
-                <Text style={styles.text}>Right ascension: {convertDecimalAngleToArrayAngleText(props.RA, ['h', 'm', 's'])}</Text>
-                <Text style={styles.text}>Declination: {convertDecimalAngleToArrayAngleText(props.DE, ['º', '\'', '"'])}</Text>
+            <View style={styles.infoContainer}>
+                <Text style={[styles.text, {color: themeColors.TextColor}]}>Names: {convertArrayToTextRepresentation(props.Names)}</Text>
+                <Text style={[styles.text, {color: themeColors.TextColor}]}>HD ID: {props.HD_ID}</Text>
+                <Text style={[styles.text, {color: themeColors.TextColor}]}>Right ascension: {convertDecimalAngleToArrayAngleText(props.RA, ['h', 'm', 's'])}</Text>
+                <Text style={[styles.text, {color: themeColors.TextColor}]}>Declination: {convertDecimalAngleToArrayAngleText(props.DE, ['º', '\'', '"'])}</Text>
             </View>
         </View>
     )
 }
 
 const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        flexDirection: 'row',
+        borderRadius: 20,
+        borderTopColor: '#1f1f1f',
+        borderLeftColor: '#1f1f1f',
+        borderBottomColor: '#242424',
+        borderRightColor: '#242424',
+        borderStyle: 'solid',
+        borderWidth: 5,
+    },
+    iconContainer: {
+        justifyContent: 'center', 
+        alignSelf: 'center', 
+        padding: 10,
+    },
+    infoContainer: {
+        alignSelf: 'center',
+        padding: 10
+    },
     text: {
-        fontSize: 20,
+        fontSize: 15,
+        flex: 0.25
     }
 })
