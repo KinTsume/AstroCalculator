@@ -6,7 +6,6 @@ import { CatalogueObject } from '../catalogueObjectCard/CatalogueObjectCard'
 
 import { DARK, LIGHT } from '../../assets/ColorPalettes'
 
-
 export interface SearchInputScreenProps {
   originObject: CatalogueObject,
   targetObject: CatalogueObject,
@@ -24,14 +23,14 @@ const SearchInputScreenView = (props: SearchInputScreenProps) => {
     //const SearchButton = () => <Ionicons testID='SearchIcon' name='search-outline' size={10} color={themeColors.Icons}/>
     const SearchButton = (props: any) => <IconButton testID='SearchIcon' icon='database-search-outline' size={50} iconColor={themeColors.Icons} 
     onPress={() => {
-      props.navigation.push('SearchScreen', {objectPosition: props.objectPosition, changeObjectCallback: props.ChangeObject})
+      props.navigation.replace('SearchScreen', {position: props.objectPosition})
     }}></IconButton>
 
     return (
       <SafeAreaView testID='SearchInputScreen' style={[styles.container, {backgroundColor: themeColors.Background}]}>
         <Text style={styles.title}>Search input</Text>
 
-        <View style={styles.field}>
+        <View style={styles.cardField}>
           <View style={styles.search}>
             <SearchButton navigation={props.navigation} objectPosition='origin'/>
             <Text style={styles.fieldName}>Origin star</Text>
@@ -40,7 +39,7 @@ const SearchInputScreenView = (props: SearchInputScreenProps) => {
           <CatalogueObjectCard {...props.originObject}/>
         </View>
 
-        <View style={styles.field}>
+        <View style={styles.cardField}>
           <View style={styles.search}>
             <SearchButton navigation={props.navigation} objectPosition='target'/>
             <Text style={styles.fieldName}>Target star</Text>
@@ -49,7 +48,7 @@ const SearchInputScreenView = (props: SearchInputScreenProps) => {
           <CatalogueObjectCard {...props.targetObject}/>
         </View>
 
-        <View style={styles.field}>
+        <View style={styles.resultField}>
           <Text style={styles.fieldName}>Target relative position</Text>
           <Text style={styles.text}>{'RA: ' + props.resultRA[0] + 'h ' + props.resultRA[1] + 'm ' + props.resultRA[2] + 's'}</Text>
           <Text style={styles.text}>{'DE: ' + props.resultDE[0] + 'º ' + props.resultDE[1] + '\' ' + props.resultDE[2] + '"'}</Text>
@@ -63,24 +62,27 @@ export default SearchInputScreenView
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: 'space-evenly',
     alignItems: 'center',
     paddingVertical: 20,
     backgroundColor: 'green',
   },
   title: {
-    flex: 1,
+    flex: 0.1,
     justifyContent: 'center',
-    alignItems: 'center',
+    alignSelf: 'center',
     fontSize: 30,
     fontWeight: 'bold',
     textAlign: 'center',
   },
-  field: {
-    flex: 3, 
-    paddingVertical: 30,
-    alignItems: 'center',
-    justifyContent: 'center',
+  cardField: {
+    flex: 0.3, 
+    paddingVertical: 5,
+    alignItems: 'flex-start',
+    justifyContent: 'flex-end',
+  },
+  resultField: {
+    flex: 0.1,
   },
   fieldName: {
     fontSize: 30,

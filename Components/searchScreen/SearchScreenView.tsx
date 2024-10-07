@@ -1,20 +1,22 @@
 import React, { createContext, useState } from "react";
-import { View, Text, ScrollView, StyleSheet, useColorScheme } from "react-native";
+import { View, Text, ScrollView, StyleSheet, useColorScheme, TouchableHighlight } from "react-native";
 import { Searchbar } from "react-native-paper";
 import CatalogueObjectCard, { CatalogueObject } from "../catalogueObjectCard/CatalogueObjectCard";
 
-import { DARK, LIGHT } from "../../assets/ColorPalettes";
+import { DARK, LIGHT, SearchInputScreenColors } from "../../assets/ColorPalettes";
 
 export interface SearchScreenViewProps {
     search: Array<CatalogueObject>,
+    route: any,
     FetchSearchObjects(search: string): Promise<void>
+    SetSearchedObject(object: CatalogueObject, position: string): void
 }
 
 export default function SearchScreenView(props: SearchScreenViewProps):React.JSX.Element {
 
     const isDarkMode = useColorScheme() === 'dark'
 
-    const themeColors = isDarkMode ? DARK : LIGHT
+    const themeColors = isDarkMode ? DARK.SearchInputScreen : LIGHT.SearchInputScreen
 
     const [searchQuery, setSearchQuery] = useState('')
 
@@ -22,10 +24,18 @@ export default function SearchScreenView(props: SearchScreenViewProps):React.JSX
         props.FetchSearchObjects(searchText)
     }
 
-    const container = CatalogueObjectsContainer(props.search, themeColors.SearchInputScreen)
+    const container = () => {
+        return(
+            <CatalogueObjectsContainer 
+            catalogueObjects={props.search} 
+            SetSearchedObjectCallback={(catalogueObject) => props.SetSearchedObject(catalogueObject, props.route.params.position)}
+            themeColors={themeColors} 
+            />
+        )
+    }
 
     return(
-        <View style={{flex: 1, backgroundColor: themeColors.SearchInputScreen.Background}}>
+        <View style={{flex: 1, backgroundColor: themeColors.Background}}>
             <Searchbar 
             testID="searchBar"
             placeholder="Type your search..." 
@@ -35,33 +45,51 @@ export default function SearchScreenView(props: SearchScreenViewProps):React.JSX
             theme={{colors: {elevation: {level3: '#0f0f0f'}, onSurface: '#363f59'}}}
             />
             
-            {container}
+            {container()}
         </View>
     )
 }
 
-const CatalogueObjectsContainer = (catalogueObjects: Array<CatalogueObject>, themeColors: any) => {
+interface CatalogueObjectsContainerProps {
+    catalogueObjects: Array<CatalogueObject>,
+    SetSearchedObjectCallback: (object: CatalogueObject) => void,
+    themeColors: SearchInputScreenColors
+}
+const CatalogueObjectsContainer = ({catalogueObjects, themeColors, SetSearchedObjectCallback}: CatalogueObjectsContainerProps) => {
     let cardsArray: Array<React.JSX.Element> = []
 
-    console.log("Creating: " + catalogueObjects.length)
-
     for(let i = 0; i < catalogueObjects.length; i++){
+
         const element = catalogueObjects[i]
         cardsArray.push(
-            <View key={i} style={[styles.cardContainer, {backgroundColor: themeColors.Background}]}>
-                <Text style={{color: 'black'}}>Those ridiculous ties!</Text>
-                <CatalogueObjectCard {...element}/>
-            </View>
+            <TouchableCard key={i} catalogueObject={element} SetSearchedObjectCallback={SetSearchedObjectCallback}  themeColors={themeColors} />
         )
     }
-
-    //console.log(catalogueObjects.length)
-    //console.log(cardsArray)
 
     return(
         <ScrollView style={styles.contentContainer}>
             {cardsArray}
         </ScrollView>
+    )
+}
+
+interface TouchableCardProps {
+    key: number,
+    catalogueObject: CatalogueObject,
+    SetSearchedObjectCallback:  (object: CatalogueObject) => void,
+    themeColors: any
+}
+
+const TouchableCard = ({catalogueObject, SetSearchedObjectCallback, themeColors, ...props}: TouchableCardProps) => {
+
+    const selectThisCatalogueObject = () => {
+        SetSearchedObjectCallback(catalogueObject)
+    }
+
+    return(
+        <TouchableHighlight testID="TouchableCard" key={props.key} onPress={() => selectThisCatalogueObject()} style={[styles.cardContainer, {backgroundColor: themeColors.Background}]}>
+            <CatalogueObjectCard {...catalogueObject}/>
+        </TouchableHighlight>
     )
 }
 

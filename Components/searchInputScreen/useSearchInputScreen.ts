@@ -1,55 +1,42 @@
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 
 import useCalculateDistance from "../../utils/useCalculateDistance"
 import useAngleRepresentationUtility from "../../utils/useAngleRepresentationUtility";
 import { CatalogueObject } from "../catalogueObjectCard/CatalogueObjectCard";
 import { DARK } from "../../assets/ColorPalettes";
 
-const emptyCatalogueObject: CatalogueObject = {
-    Names: [''],
-    HD_ID: 0,
-    RA: 0,
-    DE: 0,
-    PhotovisualMagnitude: 0,
-    SpectralType: 'O0',
-    ThemeColors: DARK.SearchInputScreen
+export interface navigationProps {
+    navigation: any,
+    route: {
+        params: {
+            catalogueObject: CatalogueObject,
+            position: string
+        }
+    },
+    originObject: CatalogueObject,
+    targetObject: CatalogueObject,
+    SetObject: (catalogueObject: CatalogueObject, positionToSet: string) => void
 }
 
-const useSearchInputScreen = ({navigation, route}: any) => {
-
-    const [originObject, setOriginObject] = useState(emptyCatalogueObject)
-    const [targetObject, setTargetObject] = useState(emptyCatalogueObject)
-
+const useSearchInputScreen = ({navigation, route, ...props}: navigationProps) => {
     const { calculateDistance } = useCalculateDistance()
     const { convertToArrayRepresentation, convertToDecimalRepresentation } = useAngleRepresentationUtility()
 
-    if(route.params)
-    {
-        console.log(route.params.selectedObject)
-    }
-    console.log("Params is undefined")
-
-    const ChangeObject = (catalogueObject: CatalogueObject, positionToChange: string) => {
-        switch(positionToChange){
-            case 'origin':
-                setOriginObject(catalogueObject)
-                break;
-            case 'target':
-                setTargetObject(catalogueObject)
-                break;
-            default:
-                console.warn('object position don\'t exist')
-                break;
+    useEffect(() => {
+        if(route && route.params && route.params.position)
+        {
+            const routeParams = route.params
+            props.SetObject(routeParams.catalogueObject, routeParams.position)
         }
-    }
+    })
 
-    let distanceRA = calculateDistance(originObject.RA, targetObject.RA)
-    let distanceDE = calculateDistance(originObject.DE, targetObject.DE)
-    
-    const resultRA = convertToArrayRepresentation(distanceRA)
-    const resultDE = convertToArrayRepresentation(distanceDE)
+    let distanceRA = calculateDistance(props.originObject.RA, props.targetObject.RA)
+    let distanceDE = calculateDistance(props.originObject.DE, props.targetObject.DE)
 
-    return {originObject, targetObject, resultRA, resultDE, ChangeObject, navigation}
+    let resultRA = convertToArrayRepresentation(distanceRA)
+    let resultDE = convertToArrayRepresentation(distanceDE)
+
+    return {...props, resultRA, resultDE, navigation}
 }
 
 export default useSearchInputScreen

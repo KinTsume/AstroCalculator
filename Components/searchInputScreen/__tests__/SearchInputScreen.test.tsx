@@ -1,9 +1,10 @@
-import {describe, it, expect} from '@jest/globals';
+import {describe, it, expect, jest} from '@jest/globals';
 import { render, renderHook, userEvent, waitFor } from '@testing-library/react-native';
 
 import SearchInputScreen from '../SearchInputScreen';
 
 import { CatalogueObject } from '../../catalogueObjectCard/CatalogueObjectCard';
+import { navigationProps } from '../useSearchInputScreen';
 
 import { DARK } from '../../../assets/ColorPalettes';
 import useSearchInputScreen from '../useSearchInputScreen';
@@ -15,7 +16,6 @@ const Vega: CatalogueObject = {
     DE: 38.76861,
     PhotovisualMagnitude: 0.14,
     SpectralType: 'A0',
-    ThemeColors: DARK.SearchInputScreen
 }
 
 const Sirius: CatalogueObject = {
@@ -25,94 +25,75 @@ const Sirius: CatalogueObject = {
     DE: -16.68694,
     PhotovisualMagnitude: -1.58,
     SpectralType: 'A0',
-    ThemeColors: DARK.SearchInputScreen
 }
+
+const setObjectMock = jest.fn()
 
 describe('SearchInputScreen', () => {
     describe('Logic', () => {
-        const navigation = {}
-        const route = {}
-        it('Changes origin object to Vega', async() => {
-            const{result} = renderHook(() => useSearchInputScreen({navigation, route}))
-
-            await waitFor(() => {
-                result.current.ChangeObject(Vega, 'origin')
-
-                const originObject = result.current.originObject
-
-                expect(originObject).toBe(Vega)
-            })
-        })
-
-        it('Changes target object to Sirius', async() => {
-            const{result} = renderHook(() => useSearchInputScreen({navigation, route}))
-
-            await waitFor(() => {
-                result.current.ChangeObject(Sirius, 'target')
-
-                const targetObject = result.current.targetObject
-
-                expect(targetObject).toBe(Sirius)
-            })
-        })
+        let propsMock: navigationProps = {
+            navigation: '',
+            route: {
+                params: {
+                    catalogueObject: Vega,
+                    position: ''
+                }
+            },
+            originObject: Vega,
+            targetObject: Sirius,
+            SetObject: setObjectMock        
+        }
 
         it('Returns the right RA', async() => {
-            const{result} = renderHook(() => useSearchInputScreen({navigation, route}))
 
-            await waitFor(() => {
-                result.current.ChangeObject(Vega, 'origin')
-                result.current.ChangeObject(Sirius, 'target')
+            const{result} = renderHook(() => useSearchInputScreen(propsMock))
 
-                const resultRA = result.current.resultRA
+            const resultRA = result.current.resultRA
 
-                expect(resultRA).toStrictEqual([-11, 51, 47.4,])
-            })
+            expect(resultRA).toStrictEqual([-11, 51, 47.4])
         })
 
         it('Returns the right DE', async() => {
-            const{result} = renderHook(() => useSearchInputScreen({navigation, route}))
+            const{result} = renderHook(() => useSearchInputScreen(propsMock))
 
-            await waitFor(() => {
-                result.current.ChangeObject(Vega, 'origin')
-                result.current.ChangeObject(Sirius, 'target')
+            const resultDE = result.current.resultDE
 
-                const resultDE = result.current.resultDE
-
-                expect(resultDE).toStrictEqual([-55, 27, 19.98])
-            })
+            expect(resultDE).toStrictEqual([-55, 27, 19.98])
         })
 
         it('Returns 0 for RA', async() => {
-            const{result} = renderHook(() => useSearchInputScreen({navigation, route}))
+            propsMock.targetObject = Vega
 
-            await waitFor(() => {
-                result.current.ChangeObject(Vega, 'origin')
-                result.current.ChangeObject(Vega, 'target')
+            const{result} = renderHook(() => useSearchInputScreen(propsMock))
 
-                const resultRA = result.current.resultRA
-                expect(resultRA).toStrictEqual([0, 0, 0])
-            })
+            const resultRA = result.current.resultRA
+            expect(resultRA).toStrictEqual([0, 0, 0])
         })
 
         it('Returns 0 for DE', async() => {
-            const{result} = renderHook(() => useSearchInputScreen({navigation, route}))
+            const{result} = renderHook(() => useSearchInputScreen(propsMock))
 
-            await waitFor(() => {
-                result.current.ChangeObject(Vega, 'origin')
-                result.current.ChangeObject(Vega, 'target')
-
-                const resultDE = result.current.resultDE
-                expect(resultDE).toStrictEqual([0, 0, 0])
-            })
+            const resultDE = result.current.resultDE
+            expect(resultDE).toStrictEqual([0, 0, 0])
         })
     })
 
     describe('View', () => {
-        const navigation = {}
-        const route = {}
+        let propsMock: navigationProps = {
+            navigation: '',
+            route: {
+                params: {
+                    catalogueObject: Vega,
+                    position: ''
+                }
+            },
+            originObject: Vega,
+            targetObject: Sirius,
+            SetObject: setObjectMock        
+        }
 
         it('Renders 2 CatalogueObjectCards', () => {
-            const{ getAllByTestId } = render(<SearchInputScreen navigation={navigation} route={route}/>)
+            const{ getAllByTestId } = render(<SearchInputScreen {...propsMock}/>)
     
             const result = getAllByTestId('CatalogueObjectCard')
     
@@ -120,7 +101,7 @@ describe('SearchInputScreen', () => {
         })
     
         it('Renders 2 search icons', () => {
-            const{ queryAllByTestId } = render(<SearchInputScreen navigation={navigation} route={route}/>)
+            const{ queryAllByTestId } = render(<SearchInputScreen {...propsMock}/>)
     
             const result = queryAllByTestId('SearchIcon')
             console.log(result.length)
@@ -129,17 +110,17 @@ describe('SearchInputScreen', () => {
         })
     
         it('Show the relative right ascension', () => {
-            const{ getByText } = render(<SearchInputScreen navigation={navigation} route={route}/>)
+            const{ getByText } = render(<SearchInputScreen {...propsMock}/>)
     
-            const result = getByText('RA: 0h 0m 0s')
+            const result = getByText('RA: -11h 51m 47.4s')
     
             expect(result).toBeTruthy()
         })
     
         it('Show the relative declination', () => {
-            const{ getByText } = render(<SearchInputScreen navigation={navigation} route={route}/>)
+            const{ getByText } = render(<SearchInputScreen {...propsMock}/>)
     
-            const result = getByText(`DE: 0º 0' 0"`)
+            const result = getByText(`DE: -55º 27' 19.98"`)
     
             expect(result).toBeTruthy()
         })
