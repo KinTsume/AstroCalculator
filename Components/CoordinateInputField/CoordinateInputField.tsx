@@ -20,7 +20,7 @@ const CoordinateInputField = (props: InputFieldProps) => {
     const themeColors = props.themeColors
 
     return (
-        <View style={[styles.container, {backgroundColor: themeColors.PropertyInput}]}>
+        <View testID='coordinateInputField' style={[styles.container, {backgroundColor: themeColors.PropertyInput}]}>
             <TextInput 
             testID='inputSubfield'
             textAlign='center'
