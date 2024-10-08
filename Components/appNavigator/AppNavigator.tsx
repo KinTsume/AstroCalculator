@@ -7,7 +7,7 @@ import Ionicons from "react-native-ionicons";
 
 import ManualInputScreen from '../manualInputScreen/ManualInputScreen';
 import SearchInputScreenNavigator from '../searchInputScreenNavigator/SearchInputScreenNavigator'
-import { OptionsScreen } from '../optionsScreen/OptionsScreen';
+import OptionsScreen from '../optionsScreen/OptionsScreen';
 
 import { DARK, LIGHT } from '../../assets/ColorPalettes';
 

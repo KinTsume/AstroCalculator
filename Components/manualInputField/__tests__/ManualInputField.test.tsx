@@ -5,6 +5,7 @@ import ManualInputFieldView from '../ManualInputFieldView';
 
 import { DARK } from '../../../assets/ColorPalettes';
 import ManualInputField from '../ManualInputField';
+import AppConfig from '../../../assets/AppConfig';
 
 const props: ManualInputFieldProps = {
     themeColors: DARK.ManualInputScreen,
@@ -24,14 +25,49 @@ afterEach(() => {
 
 describe('ManualInputField', () => {
     describe('Logic', () => {
-        it('CalculateDistanceInDegrees returns an array', () => {
+        it('Saves the origin coordinate', () => {
+            const{ result } = renderHook(() => useManualInputField(props))
+
+            result.current.SaveValues(0, ['20', '20', '20'])
+
+            const roundedCoord = Math.round(20.338888889 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
+
+
+            expect(result.current.originInput.current).toBe(roundedCoord)
+        })
+
+        it('Saves the target coordinate', () => {
+            const{ result } = renderHook(() => useManualInputField(props))
+
+            result.current.SaveValues(1, ['30', '10', '30'])
+
+            const roundedCoord = Math.round(30.175 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
+
+            expect(result.current.targetInput.current).toBe(roundedCoord)
+        })
+
+        it('Returns the calculated distance', () => {
             const{ result } = renderHook(() => useManualInputField(props))
     
             result.current.SaveValues(0, ['20', '20', '20'])
             result.current.SaveValues(1, ['30', '10', '30'])
             const distance = result.current.CalculateDistanceInDegrees()
-    
-            expect(distance).toStrictEqual([9, 50, 10])
+
+            const roundedOriginValue = Math.round(20.338888889 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
+            const roundedTargetValue = Math.round(30.175 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
+
+            const roundedDistance = roundedTargetValue - roundedOriginValue
+
+            const degrees = Math.trunc(roundedDistance)
+            
+            const rawMinutes = (roundedDistance - degrees) * 60
+            const minutes = Math.trunc(rawMinutes)
+            
+            const seconds = (rawMinutes - Math.trunc(minutes)) * 60
+
+            const roundedSeconds = Math.round(seconds * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
+
+            expect(distance).toStrictEqual([degrees, minutes, roundedSeconds])
         })
     })
     

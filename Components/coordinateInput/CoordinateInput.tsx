@@ -9,7 +9,7 @@ export interface CoordinateInputProps{
   fieldUnits: string[],
   unitsMaxValue: number[],
   isOrigin: boolean,
-  SaveValues: (index: number, value: string[]) => void
+  SaveCoordinates: (index: number, value: string[]) => void
 }
 
 function CoordinateInput(props: CoordinateInputProps) {

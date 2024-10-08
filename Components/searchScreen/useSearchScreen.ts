@@ -32,9 +32,6 @@ const useSearchScreen = ({navigation, route}: any) => {
 
     const SetSearchedObject = (object: CatalogueObject, position: string) => {
         //route.changeObjectCallback(object, position)
-        console.log('Setting object: ')
-        console.log(object)
-        console.log('\n')
         navigation.replace('SearchInputScreen', {catalogueObject: object, position})
     }
 

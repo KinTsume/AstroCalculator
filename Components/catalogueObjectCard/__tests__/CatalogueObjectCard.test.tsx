@@ -8,6 +8,7 @@ import { DARK } from '../../../assets/ColorPalettes';
 import getSpectralTypeColors from '../getSpectralTypeColor';
 import getPhotovisualMagnitudeSize from '../getPhotovisualMagnitudeSize';
 import { ReactTestInstance } from 'react-test-renderer';
+import AppConfig from '../../../assets/AppConfig';
 
 let props: CatalogueObject = {
     Names: ['Sirius', '9 Canis Majoris'],
@@ -15,15 +16,12 @@ let props: CatalogueObject = {
     RA: 6.752806,
     DE: -16.68694,
     PhotovisualMagnitude: -1.58,
-    SpectralType: 'A0',
-    ThemeColors: DARK.SearchInputScreen
+    SpectralType: 'A0'
 }
 
 describe('CatalogueObjectCard', () => {
     it('Renders the icon', () => {
         const{queryByTestId, debug} = render(<CatalogueObjectCard {...props}/>)
-
-        debug()
 
         const element = queryByTestId('CatalogueObjectCardIcon')
 
@@ -71,7 +69,9 @@ describe('CatalogueObjectCard', () => {
     it('Sets the Right ascension field', () => {
         const{queryByText} = render(<CatalogueObjectCard {...props}/>)
 
-        let rightAscension = '6h, 45m, 10.1s'
+        const roundedSeconds = Math.round(10.1016 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
+
+        let rightAscension = '6h, 45m, ' + roundedSeconds + 's'
 
         const element = queryByText('Right ascension: ' + rightAscension)
 
@@ -80,7 +80,10 @@ describe('CatalogueObjectCard', () => {
 
     it('Sets the Declination field', () => {
         const{queryByText} = render(<CatalogueObjectCard {...props}/>)
-        let declination = `-16º, 41', 12.98"`
+
+        const roundedSeconds = Math.round(12.984 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
+
+        let declination = `-16º, 41', ` + roundedSeconds + `"`
         const element = queryByText('Declination: ' + declination)
 
         expect(element).toBeTruthy();

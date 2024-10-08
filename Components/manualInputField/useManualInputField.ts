@@ -48,7 +48,7 @@ const useManualInputField = (props: ManualInputFieldProps) => {
     return distanceArray;
   }
 
-  return {...props, SaveValues, CalculateDistanceInDegrees}
+  return {...props, originInput, targetInput, SaveValues, CalculateDistanceInDegrees}
 }
 
 export default useManualInputField

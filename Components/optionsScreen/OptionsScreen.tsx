@@ -1,12 +1,16 @@
 import {View, Text, StyleSheet} from 'react-native'
+import LocalCoordinateInput from '../localCoordinateInput/LocalCoordinateInput'
 
-export const OptionsScreen = () => {
+const OptionsScreen = () => {
     return(
         <View testID='OptionsScreen' style={styles.optionsView}>
+            <LocalCoordinateInput />
         </View>
     )
     
 }
+
+export default OptionsScreen
 
 const styles = StyleSheet.create({
     optionsView: {
