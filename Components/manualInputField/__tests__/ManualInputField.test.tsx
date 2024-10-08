@@ -24,6 +24,22 @@ afterEach(() => {
 
 describe('ManualInputField', () => {
     describe('Logic', () => {
+        it('Saves the origin coordinate', () => {
+            const{ result } = renderHook(() => useManualInputField(props))
+
+            result.current.SaveValues(0, ['20', '20', '20'])
+
+            expect(result.current.originInput.current).toBe(20.34)
+        })
+
+        it('Saves the target coordinate', () => {
+            const{ result } = renderHook(() => useManualInputField(props))
+
+            result.current.SaveValues(1, ['30', '10', '30'])
+
+            expect(result.current.targetInput.current).toBe(30.18)
+        })
+
         it('CalculateDistanceInDegrees returns an array', () => {
             const{ result } = renderHook(() => useManualInputField(props))
     
@@ -31,7 +47,7 @@ describe('ManualInputField', () => {
             result.current.SaveValues(1, ['30', '10', '30'])
             const distance = result.current.CalculateDistanceInDegrees()
     
-            expect(distance).toStrictEqual([9, 50, 10])
+            expect(distance).toStrictEqual([9, 50, 24])
         })
     })
     

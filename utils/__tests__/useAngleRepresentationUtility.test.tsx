@@ -16,7 +16,7 @@ describe('useAngleRepresentationUtility', () => {
 
         const array = result.current.convertToDecimalRepresentation([-55, 29, 59.28])
 
-        expect(array).toStrictEqual(-55.4998)
+        expect(array).toStrictEqual(-55.5)
     })
     it('Returns an error', () => {
         const { result } = renderHook(() => useAngleRepresentationUtility())

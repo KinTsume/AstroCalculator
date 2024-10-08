@@ -15,15 +15,12 @@ let props: CatalogueObject = {
     RA: 6.752806,
     DE: -16.68694,
     PhotovisualMagnitude: -1.58,
-    SpectralType: 'A0',
-    ThemeColors: DARK.SearchInputScreen
+    SpectralType: 'A0'
 }
 
 describe('CatalogueObjectCard', () => {
     it('Renders the icon', () => {
         const{queryByTestId, debug} = render(<CatalogueObjectCard {...props}/>)
-
-        debug()
 
         const element = queryByTestId('CatalogueObjectCardIcon')
 

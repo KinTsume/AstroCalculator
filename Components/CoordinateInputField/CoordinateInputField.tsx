@@ -19,6 +19,32 @@ const CoordinateInputField = (props: InputFieldProps) => {
 
     const themeColors = props.themeColors
 
+    const checkLimit = (value: string, index: number) => {
+
+      let parsedValue = parseInt(value)
+      let absValue = Math.abs(parsedValue)
+      let sign = parsedValue / absValue
+
+      if(absValue >= props.unitsMaxValue[index]){
+        parsedValue = (props.unitsMaxValue[index] - 1) * sign
+        value = '' + parsedValue
+      }
+      
+      switch(index) {
+        case 0:
+          setInputTexts([value, inputTexts[1], inputTexts[2]])
+          break
+
+        case 1:
+          setInputTexts([inputTexts[0], value, inputTexts[2]])
+          break
+
+        case 2:
+          setInputTexts([inputTexts[0], inputTexts[1], value])
+          break
+      }
+    }
+
     return (
         <View testID='coordinateInputField' style={[styles.container, {backgroundColor: themeColors.PropertyInput}]}>
             <TextInput 
@@ -28,15 +54,7 @@ const CoordinateInputField = (props: InputFieldProps) => {
             maxLength={3}
             placeholder='000'
             value={inputTexts[0]}
-            onChangeText = {(value) => {
-              let parsed = parseInt(value)
-              if(parsed >= props.unitsMaxValue[0]){
-                parsed = props.unitsMaxValue[0] - 1
-                value = '' + parsed
-              }
-              
-              setInputTexts([value, inputTexts[1], inputTexts[2]])}
-            }
+            onChangeText = {(value) => checkLimit(value, 0)}
             onSubmitEditing = {() => {
               secondTextInput.current?.focus()
               props.SaveCoordinates(props.saveIndex, inputTexts)
@@ -55,17 +73,10 @@ const CoordinateInputField = (props: InputFieldProps) => {
             testID='inputSubfield'
             textAlign='center'
             inputMode='numeric'
-            maxLength={2}
+            maxLength={3}
             placeholder='00'
             value={inputTexts[1]}
-            onChangeText = {(value) => {
-              let parsed = parseInt(value)
-              if(parsed >= props.unitsMaxValue[1]){
-                parsed = props.unitsMaxValue[1] - 1
-                value = '' + parsed
-              }
-              setInputTexts([inputTexts[0], value, inputTexts[2]])
-            }}
+            onChangeText = {(value) => checkLimit(value, 1)}
             ref={secondTextInput}
             onSubmitEditing = {() => {
               thirdTextInput.current?.focus()
@@ -82,17 +93,10 @@ const CoordinateInputField = (props: InputFieldProps) => {
             testID='inputSubfield'
             textAlign='center'
             inputMode='numeric'
-            maxLength={2}
+            maxLength={3}
             placeholder='00'
             value={inputTexts[2]}
-            onChangeText = {(value) => {
-              let parsed = parseInt(value)
-              if(parsed >= props.unitsMaxValue[2]){
-                parsed = props.unitsMaxValue[2] - 1
-                value = '' + parsed
-              }
-              setInputTexts([inputTexts[0], inputTexts[1], value])
-            }}
+            onChangeText = {(value) => checkLimit(value, 2)}
             ref={thirdTextInput}
             onSubmitEditing = {() => {
               props.SaveCoordinates(props.saveIndex, inputTexts)

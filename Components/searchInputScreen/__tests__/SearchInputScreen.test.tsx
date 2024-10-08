@@ -104,7 +104,6 @@ describe('SearchInputScreen', () => {
             const{ queryAllByTestId } = render(<SearchInputScreen {...propsMock}/>)
     
             const result = queryAllByTestId('SearchIcon')
-            console.log(result.length)
     
             expect(result.length).toBe(2)
         })

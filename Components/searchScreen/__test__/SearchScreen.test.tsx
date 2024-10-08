@@ -47,7 +47,6 @@ describe('SearchScreen', () => {
 
             const { result } = renderHook(() => useSearchScreen({navigation, route}))
 
-
             await waitFor(() => result.current.FetchSearchObjects('HD'))
 
             expect(result.current.search.length).toBe(5)

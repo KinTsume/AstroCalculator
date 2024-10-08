@@ -10,7 +10,7 @@ const props: InputFieldProps = {
     unitsMaxValue: [24, 60, 60],
     fieldUnits: ['h', 'm', 's'],
     saveIndex: 0,
-    SaveValues: (index: number, value: string[]) => {},
+    SaveCoordinates: (index: number, value: string[]) => {},
 }
 
 describe('CoordinateInputField', () => {
@@ -56,7 +56,7 @@ describe('CoordinateInputField', () => {
         expect(thirdElement).toBeTruthy()
     })
 
-    it('Corrects the input subfields after entering a number beyond the unit maximum limit', () => {
+    it('Corrects the input subfields after entering a number beyond the unit limit', () => {
         const {getAllByTestId, debug} = render(<CoordinateInputField {...props}/>)
 
         const firstElement = getAllByTestId('inputSubfield')[0]
@@ -72,5 +72,23 @@ describe('CoordinateInputField', () => {
         expect(firstParsedValue).toBe(props.unitsMaxValue[0] - 1)
         expect(secondParsedValue).toBe(props.unitsMaxValue[1] - 1)
         expect(thirdParsedValue).toBe(props.unitsMaxValue[2] - 1)
+    })
+
+    it('Corrects the input subfields after entering a number lower than the unit limit', () => {
+        const {getAllByTestId, debug} = render(<CoordinateInputField {...props}/>)
+
+        const firstElement = getAllByTestId('inputSubfield')[0]
+        const secondElement = getAllByTestId('inputSubfield')[1]
+        const thirdElement = getAllByTestId('inputSubfield')[2]
+        fireEvent.changeText(firstElement, '-25')
+        fireEvent.changeText(secondElement, '-100')
+        fireEvent.changeText(thirdElement, '-100')
+        const firstParsedValue = parseInt(firstElement.props.value)
+        const secondParsedValue = parseInt(secondElement.props.value)
+        const thirdParsedValue = parseInt(thirdElement.props.value)
+
+        expect(firstParsedValue).toBe(-props.unitsMaxValue[0] + 1)
+        expect(secondParsedValue).toBe(-props.unitsMaxValue[1] + 1)
+        expect(thirdParsedValue).toBe(-props.unitsMaxValue[2] + 1)
     })
 })
