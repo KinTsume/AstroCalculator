@@ -8,6 +8,7 @@ import { navigationProps } from '../useSearchInputScreen';
 
 import { DARK } from '../../../assets/ColorPalettes';
 import useSearchInputScreen from '../useSearchInputScreen';
+import AppConfig from '../../../assets/AppConfig';
 
 const Vega: CatalogueObject = {
     Names: ['Vega', 'alf Lyr', '3 Lyr'],
@@ -50,7 +51,9 @@ describe('SearchInputScreen', () => {
 
             const resultRA = result.current.resultRA
 
-            expect(resultRA).toStrictEqual([-11, 51, 47.4])
+            const roundedSeconds = Math.round(47.3976 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
+
+            expect(resultRA).toStrictEqual([-11, 51, roundedSeconds])
         })
 
         it('Returns the right DE', async() => {
@@ -58,7 +61,9 @@ describe('SearchInputScreen', () => {
 
             const resultDE = result.current.resultDE
 
-            expect(resultDE).toStrictEqual([-55, 27, 19.98])
+            const roundedSeconds = Math.round(19.98 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
+
+            expect(resultDE).toStrictEqual([-55, 27, roundedSeconds])
         })
 
         it('Returns 0 for RA', async() => {
@@ -109,17 +114,21 @@ describe('SearchInputScreen', () => {
         })
     
         it('Show the relative right ascension', () => {
-            const{ getByText } = render(<SearchInputScreen {...propsMock}/>)
+            const{ queryByText } = render(<SearchInputScreen {...propsMock}/>)
+
+            const roundedSeconds = Math.round(47.3976 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
     
-            const result = getByText('RA: -11h 51m 47.4s')
+            const result = queryByText('RA: -11h 51m ' + roundedSeconds + `s`)
     
             expect(result).toBeTruthy()
         })
     
         it('Show the relative declination', () => {
-            const{ getByText } = render(<SearchInputScreen {...propsMock}/>)
+            const{ queryByText } = render(<SearchInputScreen {...propsMock}/>)
+
+            const roundedSeconds = Math.round(19.98 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
     
-            const result = getByText(`DE: -55º 27' 19.98"`)
+            const result = queryByText(`DE: -55º 27' ` + roundedSeconds + `"`)
     
             expect(result).toBeTruthy()
         })

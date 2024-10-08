@@ -5,6 +5,7 @@ import LocalCoordinateInput from '../LocalCoordinateInput';
 import useLocalCoordinateInput from '../useLocalCoordinateInput';
 
 import { localCoordinateInputProps } from '../useLocalCoordinateInput';
+import AppConfig from '../../../assets/AppConfig';
 
 describe('LocalCoordinateInput', () => {
     describe('Logic', () => {
@@ -13,9 +14,11 @@ describe('LocalCoordinateInput', () => {
 
             await waitFor(() => {
                 result.current.SaveLatitude(['1', '2', '3'])
-            }) 
 
-            expect(result.current.latitude).toBe(1.03)
+                const roundedValue = Math.round(1.034166667 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
+
+                expect(result.current.latitude).toBe(roundedValue)
+            }) 
         })
 
         it('Sets the longitude', async() => {
@@ -23,9 +26,11 @@ describe('LocalCoordinateInput', () => {
 
             await waitFor(() => {
                 result.current.SaveLongitude(['20', '30', '40'])
-            }) 
 
-            expect(result.current.longitude).toBe(20.51)
+                const roundedValue = Math.round(20.51111111111 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
+
+                expect(result.current.longitude).toBe(roundedValue)
+            }) 
         })
 
     })

@@ -1,3 +1,5 @@
+import AppConfig from "../assets/AppConfig"
+
 const useAngleRepresentationUtility = () => {
     
     const convertToArrayRepresentation = (decimalAngle: number) => {
@@ -11,7 +13,7 @@ const useAngleRepresentationUtility = () => {
         rest = rest - minutes
 
         let seconds = rest * 60
-        let roundedSeconds = Math.round(seconds * 100) / 100
+        let roundedSeconds = Math.round(seconds * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
 
         let declinationInDegrees = [degrees, Math.abs(minutes), Math.abs(roundedSeconds)]
 
@@ -36,7 +38,7 @@ const useAngleRepresentationUtility = () => {
 
         decimalAngle += decimalMinutes + decimalSeconds
 
-        let roundedDecimalAngle = Math.round(decimalAngle * 100) / 100
+        let roundedDecimalAngle = Math.round(decimalAngle * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
 
         return roundedDecimalAngle
     }
