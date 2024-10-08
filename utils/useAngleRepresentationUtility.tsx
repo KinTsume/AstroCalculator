@@ -36,7 +36,9 @@ const useAngleRepresentationUtility = () => {
 
         decimalAngle += decimalMinutes + decimalSeconds
 
-        return decimalAngle
+        let roundedDecimalAngle = Math.round(decimalAngle * 100) / 100
+
+        return roundedDecimalAngle
     }
 
     return {convertToArrayRepresentation, convertToDecimalRepresentation}
