@@ -26,7 +26,7 @@ const ManualInputFieldView = (props: ManualInputFieldViewProps) => {
           <CoordinateInput
           {...props} 
           isOrigin={true} 
-          SaveValues={props.SaveValues}
+          SaveCoordinates={props.SaveValues}
           />
         </View>
 
@@ -37,8 +37,8 @@ const ManualInputFieldView = (props: ManualInputFieldViewProps) => {
 
           <CoordinateInput
           {...props} 
-          isOrigin={false} 
-          SaveValues={props.SaveValues}
+          isOrigin={false}
+          SaveCoordinates={props.SaveValues}
           />
 
         </View>
