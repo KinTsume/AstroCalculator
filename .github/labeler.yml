@@ -5,18 +5,48 @@
 # For more information, see:
 # https://github.com/actions/labeler
 
-'package: core':
+Utility:
 - changed-files:
-  - any-glob-to-any-file: ['core/**/*']
+  - any-glob-to-any-file: utils/*
 
-'package: angular':
+Component:
 - changed-files:
-  - any-glob-to-any-file: ['packages/angular/**/*', 'packages/angular-*/**/*']
+  - any-glob-to-any-file: components/*
 
-'package: react':
-- changed-files:
-  - any-glob-to-any-file: ['packages/react/**/*', 'packages/react-*/**/*']
+Github: 
+- changed-files: 
+  - any-glob-to-any-file: '.github/*'
 
-'package: vue':
-- changed-files:
-  - any-glob-to-any-file: ['packages/vue/**/*', 'packages/vue-*/**/*']
+feature:
+  - head-branch: '^feature'
+
+fix:
+  - head-branch: '^fix'
+
+refactor:
+  - head-branch: '^refactor'
+
+devFeature:
+  - head-branch: '^devFeature'
+
+devFix:
+  - head-branch: '^devFix'
+
+release:
+  - base-branch: main
+
+# 'package: core':
+# - changed-files:
+#   - any-glob-to-any-file: ['core/**/*']
+
+# 'package: angular':
+# - changed-files:
+#   - any-glob-to-any-file: ['packages/angular/**/*', 'packages/angular-*/**/*']
+
+# 'package: react':
+# - changed-files:
+#   - any-glob-to-any-file: ['packages/react/**/*', 'packages/react-*/**/*']
+
+# 'package: vue':
+# - changed-files:
+#   - any-glob-to-any-file: ['packages/vue/**/*', 'packages/vue-*/**/*']
