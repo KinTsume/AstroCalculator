@@ -65,11 +65,11 @@ describe('LocalCoordinateInput', () => {
 
             const subfields = getAllByTestId('inputSubfield')
 
-            //await userEvent.type(subfields[0], '10', {submitEditing: true})
+            await userEvent.type(subfields[0], '10', {submitEditing: true})
             await userEvent.type(subfields[1], '11', {submitEditing: true})
             await userEvent.type(subfields[2], '12', {submitEditing: true})
 
-            expect(SaveLatitudeMock).toBeCalledTimes(3)
+            expect(SaveLatitudeMock).toBeCalledTimes(6)
         })
 
         it('Calls SaveLongitude', async() => {
@@ -82,10 +82,32 @@ describe('LocalCoordinateInput', () => {
 
             const subfields = getAllByTestId('inputSubfield')
 
-            await userEvent.type(subfields[3], '10')
-            await userEvent.type(subfields[4], '11')
-            await userEvent.type(subfields[5], '12')
+            await userEvent.type(subfields[3], '10', {submitEditing: true})
+            await userEvent.type(subfields[4], '11', {submitEditing: true})
+            await userEvent.type(subfields[5], '12', {submitEditing: true})
 
+            expect(propsMock.SaveLongitude).toBeCalledTimes(6)
+        })
+
+        it('Calls save function without submitting', async() => {
+            const propsMock: LocalCoordinateInputViewProps = {
+                SaveLatitude: jest.fn(), 
+                SaveLongitude: jest.fn(),
+            }
+
+            const {getAllByTestId} = render(<LocalCoordinateInputView {...propsMock} />)
+
+            const subfields = getAllByTestId('inputSubfield')
+
+            await userEvent.type(subfields[0], '10')
+            await userEvent.type(subfields[1], '11')
+            await userEvent.type(subfields[2], '12')
+
+            await userEvent.type(subfields[3], '20')
+            await userEvent.type(subfields[4], '21')
+            await userEvent.type(subfields[5], '22')
+
+            expect(propsMock.SaveLatitude).toBeCalledTimes(3)
             expect(propsMock.SaveLongitude).toBeCalledTimes(3)
         })
     })

@@ -82,6 +82,9 @@ const CoordinateInputField = (props: InputFieldProps) => {
               thirdTextInput.current?.focus()
               props.SaveCoordinates(props.saveIndex, inputTexts)
             }}
+            onEndEditing={() => {
+              props.SaveCoordinates(props.saveIndex, inputTexts)
+            }}
             blurOnSubmit={false}
             placeholderTextColor={themeColors.PlaceholderTextColor}
             style={[styles.textInputStyle, {color: themeColors.TextColor}]}
@@ -99,6 +102,9 @@ const CoordinateInputField = (props: InputFieldProps) => {
             onChangeText = {(value) => checkLimit(value, 2)}
             ref={thirdTextInput}
             onSubmitEditing = {() => {
+              props.SaveCoordinates(props.saveIndex, inputTexts)
+            }}
+            onEndEditing={() => {
               props.SaveCoordinates(props.saveIndex, inputTexts)
             }}
             placeholderTextColor={themeColors.PlaceholderTextColor}
