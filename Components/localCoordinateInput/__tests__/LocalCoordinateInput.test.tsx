@@ -6,6 +6,7 @@ import useLocalCoordinateInput from '../useLocalCoordinateInput';
 
 import { localCoordinateInputProps } from '../useLocalCoordinateInput';
 import AppConfig from '../../../assets/AppConfig';
+import LocalCoordinateInputView, { LocalCoordinateInputViewProps } from '../LocalCoordinatesInputView';
 
 describe('LocalCoordinateInput', () => {
     describe('Logic', () => {
@@ -50,6 +51,42 @@ describe('LocalCoordinateInput', () => {
             const result = queryByTestId('gpsFillButton')
 
             expect(result).toBeTruthy()
+        })
+
+        it('Calls SaveLatitude', async() => {
+            const SaveLatitudeMock = jest.fn()
+
+            const propsMock: LocalCoordinateInputViewProps = {
+                SaveLatitude: SaveLatitudeMock, 
+                SaveLongitude: jest.fn(),
+            }
+
+            const {getAllByTestId, debug} = render(<LocalCoordinateInputView {...propsMock} />)
+
+            const subfields = getAllByTestId('inputSubfield')
+
+            //await userEvent.type(subfields[0], '10', {submitEditing: true})
+            await userEvent.type(subfields[1], '11', {submitEditing: true})
+            await userEvent.type(subfields[2], '12', {submitEditing: true})
+
+            expect(SaveLatitudeMock).toBeCalledTimes(3)
+        })
+
+        it('Calls SaveLongitude', async() => {
+            const propsMock: LocalCoordinateInputViewProps = {
+                SaveLatitude: jest.fn(), 
+                SaveLongitude: jest.fn(),
+            }
+
+            const {getAllByTestId} = render(<LocalCoordinateInputView {...propsMock} />)
+
+            const subfields = getAllByTestId('inputSubfield')
+
+            await userEvent.type(subfields[3], '10')
+            await userEvent.type(subfields[4], '11')
+            await userEvent.type(subfields[5], '12')
+
+            expect(propsMock.SaveLongitude).toBeCalledTimes(3)
         })
     })
 })

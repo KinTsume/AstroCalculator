@@ -1,5 +1,6 @@
 import { useState } from "react"
 import useAngleRepresentationUtility from "../../utils/useAngleRepresentationUtility"
+import Geolocation from "@react-native-community/geolocation"
 
 export interface localCoordinateInputProps{
 
