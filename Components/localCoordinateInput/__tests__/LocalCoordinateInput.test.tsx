@@ -34,6 +34,24 @@ describe('LocalCoordinateInput', () => {
             }) 
         })
 
+        it('Gets the geolocation latitude', () => {
+            const { result } = renderHook(() => useLocalCoordinateInput())
+
+            waitFor(() => {
+                result.current.GetGeolocation()
+                expect(result.current.latitude).toBe(-23.006945)                
+            }) 
+        })
+
+        it('Gets the geolocation longitude', () => {
+            const { result } = renderHook(() => useLocalCoordinateInput())
+
+            waitFor(() => {
+                result.current.GetGeolocation()
+                expect(result.current.longitude).toBe(-44.31778)
+            }) 
+        })
+
     })
 
     describe('View', () => {
@@ -89,7 +107,7 @@ describe('LocalCoordinateInput', () => {
             expect(propsMock.SaveLongitude).toBeCalledTimes(6)
         })
 
-        it('Calls save function without submitting', async() => {
+        it('Calls save functions without submitting', async() => {
             const propsMock: LocalCoordinateInputViewProps = {
                 SaveLatitude: jest.fn(), 
                 SaveLongitude: jest.fn(),
