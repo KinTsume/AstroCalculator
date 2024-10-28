@@ -38,8 +38,9 @@ const LocalCoordinateInputView = (props: LocalCoordinateInputViewProps) => {
         <View>
             <IconButton testID='gpsFillButton' icon='map-marker-radius-outline' size={50} iconColor={themeColors.Icons} 
                 onPress={() => {
-                    
-            }}/>
+                    props.GetGeolocation()
+                }
+            }/>
 
             <Text>Enter your latitude</Text>
             <CoordinateInputField {...latitudeProps}/>
