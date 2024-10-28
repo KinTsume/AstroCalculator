@@ -7,6 +7,30 @@ import LocalCoordinateInputView, { LocalCoordinateInputViewProps } from '../Loca
 
 import AppConfig from '../../../assets/AppConfig';
 
+let viewPropsMock: LocalCoordinateInputViewProps = {
+    SaveLatitude: jest.fn(), 
+    SaveLongitude: jest.fn(),
+    GetGeolocation: jest.fn(),
+    latitude: 0,
+    longitude: 0
+}
+
+beforeEach(() => {
+    jest.useFakeTimers()
+
+    viewPropsMock = {
+        SaveLatitude: jest.fn(), 
+        SaveLongitude: jest.fn(),
+        GetGeolocation: jest.fn(),
+        latitude: 0,
+        longitude: 0
+    }
+})
+
+afterEach(() => {
+    jest.useRealTimers()
+})
+
 describe('LocalCoordinateInput', () => {
     describe('Logic', () => {
         it('Sets the latitude', async() => {
@@ -59,14 +83,6 @@ describe('LocalCoordinateInput', () => {
 
     describe('View', () => {
 
-        const viewPropsMock: LocalCoordinateInputViewProps = {
-            SaveLatitude: jest.fn(), 
-            SaveLongitude: jest.fn(),
-            GetGeolocation: jest.fn(),
-            latitude: 0,
-            longitude: 0
-        }
-
         it('Renders 2 CoordinateInputFields', () => {
             const{ queryAllByTestId } = render(<LocalCoordinateInput/>)
 
@@ -109,7 +125,7 @@ describe('LocalCoordinateInput', () => {
         })
 
         it('Calls save functions without submitting', async() => {
-
+            
             const {getAllByTestId} = render(<LocalCoordinateInputView {...viewPropsMock} />)
 
             const subfields = getAllByTestId('inputSubfield')
@@ -124,6 +140,22 @@ describe('LocalCoordinateInput', () => {
 
             expect(viewPropsMock.SaveLatitude).toBeCalledTimes(3)
             expect(viewPropsMock.SaveLongitude).toBeCalledTimes(3)
+        })
+    
+        it('Calls getGeolocation when icon button is pressed', () => {
+
+            const{ queryByTestId } = render(<LocalCoordinateInputView {...viewPropsMock}/>)
+
+            const result = queryByTestId('gpsFillButton')
+
+            if(!result) return
+
+            waitFor(() => {
+                userEvent.press(result)
+            })
+            .then(() => {
+                expect(viewPropsMock.GetGeolocation).toHaveBeenCalled()
+            })
         })
     })
 })
