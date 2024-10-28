@@ -37,9 +37,11 @@ describe('LocalCoordinateInput', () => {
             const { result } = renderHook(() => useLocalCoordinateInput())
 
             waitFor(() => {
-                result.current.GetGeolocation()
-                expect(result.current.latitude).toBe(-23.006945)                
-            }) 
+                result.current.GetGeolocation()                
+            })
+            .then(() => {
+                expect(result.current.latitude).toBe(-23.006945)
+            })
         })
 
         it('Gets the geolocation longitude', () => {
@@ -47,8 +49,10 @@ describe('LocalCoordinateInput', () => {
 
             waitFor(() => {
                 result.current.GetGeolocation()
+            })
+            .then(() => {
                 expect(result.current.longitude).toBe(-44.31778)
-            }) 
+            })
         })
 
     })
