@@ -58,6 +58,15 @@ describe('LocalCoordinateInput', () => {
     })
 
     describe('View', () => {
+
+        const viewPropsMock: LocalCoordinateInputViewProps = {
+            SaveLatitude: jest.fn(), 
+            SaveLongitude: jest.fn(),
+            GetGeolocation: jest.fn(),
+            latitude: 0,
+            longitude: 0
+        }
+
         it('Renders 2 CoordinateInputFields', () => {
             const{ queryAllByTestId } = render(<LocalCoordinateInput/>)
 
@@ -75,14 +84,8 @@ describe('LocalCoordinateInput', () => {
         })
 
         it('Calls SaveLatitude', async() => {
-            const SaveLatitudeMock = jest.fn()
 
-            const propsMock: LocalCoordinateInputViewProps = {
-                SaveLatitude: SaveLatitudeMock, 
-                SaveLongitude: jest.fn(),
-            }
-
-            const {getAllByTestId, debug} = render(<LocalCoordinateInputView {...propsMock} />)
+            const {getAllByTestId, debug} = render(<LocalCoordinateInputView {...viewPropsMock} />)
 
             const subfields = getAllByTestId('inputSubfield')
 
@@ -90,16 +93,11 @@ describe('LocalCoordinateInput', () => {
             await userEvent.type(subfields[1], '11', {submitEditing: true})
             await userEvent.type(subfields[2], '12', {submitEditing: true})
 
-            expect(SaveLatitudeMock).toBeCalledTimes(6)
+            expect(viewPropsMock.SaveLatitude).toBeCalledTimes(6)
         })
 
         it('Calls SaveLongitude', async() => {
-            const propsMock: LocalCoordinateInputViewProps = {
-                SaveLatitude: jest.fn(), 
-                SaveLongitude: jest.fn(),
-            }
-
-            const {getAllByTestId} = render(<LocalCoordinateInputView {...propsMock} />)
+            const {getAllByTestId} = render(<LocalCoordinateInputView {...viewPropsMock} />)
 
             const subfields = getAllByTestId('inputSubfield')
 
@@ -107,16 +105,12 @@ describe('LocalCoordinateInput', () => {
             await userEvent.type(subfields[4], '11', {submitEditing: true})
             await userEvent.type(subfields[5], '12', {submitEditing: true})
 
-            expect(propsMock.SaveLongitude).toBeCalledTimes(6)
+            expect(viewPropsMock.SaveLongitude).toBeCalledTimes(6)
         })
 
         it('Calls save functions without submitting', async() => {
-            const propsMock: LocalCoordinateInputViewProps = {
-                SaveLatitude: jest.fn(), 
-                SaveLongitude: jest.fn(),
-            }
 
-            const {getAllByTestId} = render(<LocalCoordinateInputView {...propsMock} />)
+            const {getAllByTestId} = render(<LocalCoordinateInputView {...viewPropsMock} />)
 
             const subfields = getAllByTestId('inputSubfield')
 
@@ -128,8 +122,8 @@ describe('LocalCoordinateInput', () => {
             await userEvent.type(subfields[4], '21')
             await userEvent.type(subfields[5], '22')
 
-            expect(propsMock.SaveLatitude).toBeCalledTimes(3)
-            expect(propsMock.SaveLongitude).toBeCalledTimes(3)
+            expect(viewPropsMock.SaveLatitude).toBeCalledTimes(3)
+            expect(viewPropsMock.SaveLongitude).toBeCalledTimes(3)
         })
     })
 })
