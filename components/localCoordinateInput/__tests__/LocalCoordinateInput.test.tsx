@@ -3,8 +3,8 @@ import { render, renderHook, userEvent, waitFor } from '@testing-library/react-n
 
 import LocalCoordinateInput from '../LocalCoordinateInput';
 import useLocalCoordinateInput from '../useLocalCoordinateInput';
+import LocalCoordinateInputView, { LocalCoordinateInputViewProps } from '../LocalCoordinatesInputView';
 
-import { localCoordinateInputProps } from '../useLocalCoordinateInput';
 import AppConfig from '../../../assets/AppConfig';
 
 describe('LocalCoordinateInput', () => {
@@ -13,7 +13,7 @@ describe('LocalCoordinateInput', () => {
             const { result } = renderHook(() => useLocalCoordinateInput())
 
             await waitFor(() => {
-                result.current.SaveLatitude(['1', '2', '3'])
+                result.current.SaveLatitude(0, ['1', '2', '3'])
 
                 const roundedValue = Math.round(1.034166667 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
 
@@ -25,11 +25,29 @@ describe('LocalCoordinateInput', () => {
             const { result } = renderHook(() => useLocalCoordinateInput())
 
             await waitFor(() => {
-                result.current.SaveLongitude(['20', '30', '40'])
+                result.current.SaveLongitude(0, ['20', '30', '40'])
 
                 const roundedValue = Math.round(20.51111111111 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
 
                 expect(result.current.longitude).toBe(roundedValue)
+            }) 
+        })
+
+        it('Gets the geolocation latitude', () => {
+            const { result } = renderHook(() => useLocalCoordinateInput())
+
+            waitFor(() => {
+                result.current.GetGeolocation()
+                expect(result.current.latitude).toBe(-23.006945)                
+            }) 
+        })
+
+        it('Gets the geolocation longitude', () => {
+            const { result } = renderHook(() => useLocalCoordinateInput())
+
+            waitFor(() => {
+                result.current.GetGeolocation()
+                expect(result.current.longitude).toBe(-44.31778)
             }) 
         })
 
@@ -50,6 +68,64 @@ describe('LocalCoordinateInput', () => {
             const result = queryByTestId('gpsFillButton')
 
             expect(result).toBeTruthy()
+        })
+
+        it('Calls SaveLatitude', async() => {
+            const SaveLatitudeMock = jest.fn()
+
+            const propsMock: LocalCoordinateInputViewProps = {
+                SaveLatitude: SaveLatitudeMock, 
+                SaveLongitude: jest.fn(),
+            }
+
+            const {getAllByTestId, debug} = render(<LocalCoordinateInputView {...propsMock} />)
+
+            const subfields = getAllByTestId('inputSubfield')
+
+            await userEvent.type(subfields[0], '10', {submitEditing: true})
+            await userEvent.type(subfields[1], '11', {submitEditing: true})
+            await userEvent.type(subfields[2], '12', {submitEditing: true})
+
+            expect(SaveLatitudeMock).toBeCalledTimes(6)
+        })
+
+        it('Calls SaveLongitude', async() => {
+            const propsMock: LocalCoordinateInputViewProps = {
+                SaveLatitude: jest.fn(), 
+                SaveLongitude: jest.fn(),
+            }
+
+            const {getAllByTestId} = render(<LocalCoordinateInputView {...propsMock} />)
+
+            const subfields = getAllByTestId('inputSubfield')
+
+            await userEvent.type(subfields[3], '10', {submitEditing: true})
+            await userEvent.type(subfields[4], '11', {submitEditing: true})
+            await userEvent.type(subfields[5], '12', {submitEditing: true})
+
+            expect(propsMock.SaveLongitude).toBeCalledTimes(6)
+        })
+
+        it('Calls save functions without submitting', async() => {
+            const propsMock: LocalCoordinateInputViewProps = {
+                SaveLatitude: jest.fn(), 
+                SaveLongitude: jest.fn(),
+            }
+
+            const {getAllByTestId} = render(<LocalCoordinateInputView {...propsMock} />)
+
+            const subfields = getAllByTestId('inputSubfield')
+
+            await userEvent.type(subfields[0], '10')
+            await userEvent.type(subfields[1], '11')
+            await userEvent.type(subfields[2], '12')
+
+            await userEvent.type(subfields[3], '20')
+            await userEvent.type(subfields[4], '21')
+            await userEvent.type(subfields[5], '22')
+
+            expect(propsMock.SaveLatitude).toBeCalledTimes(3)
+            expect(propsMock.SaveLongitude).toBeCalledTimes(3)
         })
     })
 })

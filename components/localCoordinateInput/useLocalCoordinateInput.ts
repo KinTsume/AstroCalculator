@@ -28,7 +28,11 @@ const useLocalCoordinateInput = () => {
         setLongitude(asDecimalRepresentation)
     }
 
-    return{SaveLatitude, SaveLongitude, latitude, longitude}
+    const GetGeolocation = () => {
+
+    }
+
+    return{SaveLatitude, SaveLongitude, GetGeolocation, latitude, longitude}
 }
 
 export default useLocalCoordinateInput
