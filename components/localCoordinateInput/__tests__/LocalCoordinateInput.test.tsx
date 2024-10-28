@@ -3,9 +3,33 @@ import { render, renderHook, userEvent, waitFor } from '@testing-library/react-n
 
 import LocalCoordinateInput from '../LocalCoordinateInput';
 import useLocalCoordinateInput from '../useLocalCoordinateInput';
+import LocalCoordinateInputView, { LocalCoordinateInputViewProps } from '../LocalCoordinatesInputView';
 
-import { localCoordinateInputProps } from '../useLocalCoordinateInput';
 import AppConfig from '../../../assets/AppConfig';
+
+let viewPropsMock: LocalCoordinateInputViewProps = {
+    SaveLatitude: jest.fn(), 
+    SaveLongitude: jest.fn(),
+    GetGeolocation: jest.fn(),
+    latitude: 0,
+    longitude: 0
+}
+
+beforeEach(() => {
+    jest.useFakeTimers()
+
+    viewPropsMock = {
+        SaveLatitude: jest.fn(), 
+        SaveLongitude: jest.fn(),
+        GetGeolocation: jest.fn(),
+        latitude: 0,
+        longitude: 0
+    }
+})
+
+afterEach(() => {
+    jest.useRealTimers()
+})
 
 describe('LocalCoordinateInput', () => {
     describe('Logic', () => {
@@ -13,7 +37,7 @@ describe('LocalCoordinateInput', () => {
             const { result } = renderHook(() => useLocalCoordinateInput())
 
             await waitFor(() => {
-                result.current.SaveLatitude(['1', '2', '3'])
+                result.current.SaveLatitude(0, ['1', '2', '3'])
 
                 const roundedValue = Math.round(1.034166667 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
 
@@ -25,7 +49,7 @@ describe('LocalCoordinateInput', () => {
             const { result } = renderHook(() => useLocalCoordinateInput())
 
             await waitFor(() => {
-                result.current.SaveLongitude(['20', '30', '40'])
+                result.current.SaveLongitude(0, ['20', '30', '40'])
 
                 const roundedValue = Math.round(20.51111111111 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
 
@@ -33,9 +57,32 @@ describe('LocalCoordinateInput', () => {
             }) 
         })
 
+        it('Gets the geolocation latitude', () => {
+            const { result } = renderHook(() => useLocalCoordinateInput())
+
+            waitFor(() => {
+                result.current.GetGeolocation()                
+            })
+            .then(() => {
+                expect(result.current.latitude).toBe(-23.006945)
+            })
+        })
+
+        it('Gets the geolocation longitude', () => {
+            const { result } = renderHook(() => useLocalCoordinateInput())
+
+            waitFor(() => {
+                result.current.GetGeolocation()
+            })
+            .then(() => {
+                expect(result.current.longitude).toBe(-44.31778)
+            })
+        })
+
     })
 
     describe('View', () => {
+
         it('Renders 2 CoordinateInputFields', () => {
             const{ queryAllByTestId } = render(<LocalCoordinateInput/>)
 
@@ -50,6 +97,65 @@ describe('LocalCoordinateInput', () => {
             const result = queryByTestId('gpsFillButton')
 
             expect(result).toBeTruthy()
+        })
+
+        it('Calls SaveLatitude', async() => {
+
+            const {getAllByTestId, debug} = render(<LocalCoordinateInputView {...viewPropsMock} />)
+
+            const subfields = getAllByTestId('inputSubfield')
+
+            await userEvent.type(subfields[0], '10', {submitEditing: true})
+            await userEvent.type(subfields[1], '11', {submitEditing: true})
+            await userEvent.type(subfields[2], '12', {submitEditing: true})
+
+            expect(viewPropsMock.SaveLatitude).toBeCalledTimes(6)
+        })
+
+        it('Calls SaveLongitude', async() => {
+            const {getAllByTestId} = render(<LocalCoordinateInputView {...viewPropsMock} />)
+
+            const subfields = getAllByTestId('inputSubfield')
+
+            await userEvent.type(subfields[3], '10', {submitEditing: true})
+            await userEvent.type(subfields[4], '11', {submitEditing: true})
+            await userEvent.type(subfields[5], '12', {submitEditing: true})
+
+            expect(viewPropsMock.SaveLongitude).toBeCalledTimes(6)
+        })
+
+        it('Calls save functions without submitting', async() => {
+            
+            const {getAllByTestId} = render(<LocalCoordinateInputView {...viewPropsMock} />)
+
+            const subfields = getAllByTestId('inputSubfield')
+
+            await userEvent.type(subfields[0], '10')
+            await userEvent.type(subfields[1], '11')
+            await userEvent.type(subfields[2], '12')
+
+            await userEvent.type(subfields[3], '20')
+            await userEvent.type(subfields[4], '21')
+            await userEvent.type(subfields[5], '22')
+
+            expect(viewPropsMock.SaveLatitude).toBeCalledTimes(3)
+            expect(viewPropsMock.SaveLongitude).toBeCalledTimes(3)
+        })
+    
+        it('Calls getGeolocation when icon button is pressed', () => {
+
+            const{ queryByTestId } = render(<LocalCoordinateInputView {...viewPropsMock}/>)
+
+            const result = queryByTestId('gpsFillButton')
+
+            if(!result) return
+
+            waitFor(() => {
+                userEvent.press(result)
+            })
+            .then(() => {
+                expect(viewPropsMock.GetGeolocation).toHaveBeenCalled()
+            })
         })
     })
 })
