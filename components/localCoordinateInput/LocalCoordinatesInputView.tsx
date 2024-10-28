@@ -5,7 +5,10 @@ import { IconButton } from "react-native-paper";
 
 export interface LocalCoordinateInputViewProps {
     SaveLatitude: (index: number, value: string[]) => void,
-    SaveLongitude: (index: number, value: string[]) => void
+    SaveLongitude: (index: number, value: string[]) => void,
+    GetGeolocation: () => void, 
+    latitude: number, 
+    longitude: number,
 }
 
 const LocalCoordinateInputView = (props: LocalCoordinateInputViewProps) => {
