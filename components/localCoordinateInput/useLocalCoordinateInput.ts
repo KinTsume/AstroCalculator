@@ -1,5 +1,6 @@
 import { useState } from "react"
 import useAngleRepresentationUtility from "../../utils/useAngleRepresentationUtility"
+import Geolocation from "@react-native-community/geolocation"
 
 export interface localCoordinateInputProps{
 
@@ -41,7 +42,10 @@ const useLocalCoordinateInput = () => {
     }
 
     const GetGeolocation = () => {
-
+        Geolocation.getCurrentPosition((position) => {
+            setLatitude(position.coords.latitude)
+            setLongitude(position.coords.longitude)
+        })
     }
 
     return{SaveLatitude, SaveLongitude, GetGeolocation, latitude, longitude}
