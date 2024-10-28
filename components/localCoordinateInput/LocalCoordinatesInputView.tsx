@@ -3,8 +3,9 @@ import CoordinateInputField, { InputFieldProps } from "../coordinateInputField/C
 import {DARK, LIGHT} from "../../assets/ColorPalettes";
 import { IconButton } from "react-native-paper";
 
-interface LocalCoordinateInputViewProps {
-    SaveCoordinates: () => void
+export interface LocalCoordinateInputViewProps {
+    SaveLatitude: (index: number, value: string[]) => void,
+    SaveLongitude: (index: number, value: string[]) => void
 }
 
 const LocalCoordinateInputView = (props: LocalCoordinateInputViewProps) => {
@@ -19,7 +20,7 @@ const LocalCoordinateInputView = (props: LocalCoordinateInputViewProps) => {
         unitsMaxValue: [90, 60, 60],
         saveIndex: 0,
         themeColors: theme.ManualInputScreen,
-        SaveCoordinates: () => {}
+        SaveCoordinates: props.SaveLatitude
     } 
 
     const longitudeProps: InputFieldProps = {
@@ -27,7 +28,7 @@ const LocalCoordinateInputView = (props: LocalCoordinateInputViewProps) => {
         unitsMaxValue: [180, 60, 60],
         saveIndex: 0,
         themeColors: theme.ManualInputScreen,
-        SaveCoordinates: () => {}
+        SaveCoordinates: props.SaveLongitude
     } 
 
     return (

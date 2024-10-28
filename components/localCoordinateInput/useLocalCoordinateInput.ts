@@ -12,7 +12,7 @@ const useLocalCoordinateInput = () => {
 
     const {convertToDecimalRepresentation} = useAngleRepresentationUtility()
 
-    const SaveLatitude = (latitude: string[]) => {
+    const SaveLatitude = (index: number, latitude: string[]) => {
         const asNumberArray = [parseInt(latitude[0]), parseInt(latitude[1]), parseInt(latitude[2])]
         
         const asDecimalRepresentation = convertToDecimalRepresentation(asNumberArray)
@@ -20,7 +20,7 @@ const useLocalCoordinateInput = () => {
         setLatitude(asDecimalRepresentation)
     }
 
-    const SaveLongitude = (longitude: string[]) => {
+    const SaveLongitude = (index: number, longitude: string[]) => {
         const asNumberArray = [parseInt(longitude[0]), parseInt(longitude[1]), parseInt(longitude[2])]
         
         const asDecimalRepresentation = convertToDecimalRepresentation(asNumberArray)
