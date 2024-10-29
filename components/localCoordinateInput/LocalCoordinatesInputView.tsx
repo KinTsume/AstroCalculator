@@ -4,8 +4,8 @@ import {DARK, LIGHT} from "../../assets/ColorPalettes";
 import { IconButton } from "react-native-paper";
 
 export interface LocalCoordinateInputViewProps {
-    SaveLatitude: (index: number, value: string[]) => void,
-    SaveLongitude: (index: number, value: string[]) => void,
+    SaveLatitude: (value: string[]) => void,
+    SaveLongitude: (value: string[]) => void,
     GetGeolocation: () => void, 
     latitude: number, 
     longitude: number,
@@ -21,17 +21,15 @@ const LocalCoordinateInputView = (props: LocalCoordinateInputViewProps) => {
     const latitudeProps: InputFieldProps = {
         fieldUnits: ['º', "'", "''"],
         unitsMaxValue: [90, 60, 60],
-        saveIndex: 0,
         themeColors: theme.ManualInputScreen,
-        SaveCoordinates: props.SaveLatitude
+        SaveCallback: props.SaveLatitude
     } 
 
     const longitudeProps: InputFieldProps = {
         fieldUnits: ['º', "'", "''"],
         unitsMaxValue: [180, 60, 60],
-        saveIndex: 0,
         themeColors: theme.ManualInputScreen,
-        SaveCoordinates: props.SaveLongitude
+        SaveCallback: props.SaveLongitude
     } 
 
     return (
