@@ -2,6 +2,8 @@ import { View, Text, TextInput, useColorScheme } from "react-native";
 import CoordinateInputField, { InputFieldProps } from "../coordinateInputField/CoordinateInputField";
 import {DARK, LIGHT} from "../../assets/ColorPalettes";
 import { IconButton } from "react-native-paper";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { positionStorage } from "./useLocalCoordinateInput";
 
 export interface LocalCoordinateInputViewProps {
     SaveLatitude: (value: string[]) => void,
@@ -44,6 +46,9 @@ const LocalCoordinateInputView = (props: LocalCoordinateInputViewProps) => {
             <CoordinateInputField {...latitudeProps}/>
             <Text>Enter your longitude</Text>
             <CoordinateInputField {...longitudeProps}/>
+            <Text>Current location:</Text>
+            <Text>Latitude: {props.latitude}</Text>
+            <Text>Longitude: {props.longitude}</Text>
         </View>
     )
 }
