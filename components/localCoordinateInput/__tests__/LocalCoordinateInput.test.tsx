@@ -44,7 +44,7 @@ describe('LocalCoordinateInput', () => {
             const { result } = renderHook(() => useLocalCoordinateInput())
 
             await waitFor(() => {
-                result.current.SaveLatitude(0, ['1', '2', '3'])
+                result.current.SaveLatitude(['1', '2', '3'])
 
                 const roundedValue = Math.round(1.034166667 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
 
@@ -56,7 +56,7 @@ describe('LocalCoordinateInput', () => {
             const { result } = renderHook(() => useLocalCoordinateInput())
 
             await waitFor(() => {
-                result.current.SaveLongitude(0, ['20', '30', '40'])
+                result.current.SaveLongitude(['20', '30', '40'])
 
                 const roundedValue = Math.round(20.51111111111 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
 
