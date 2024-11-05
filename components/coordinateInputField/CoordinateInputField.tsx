@@ -14,7 +14,7 @@ const CoordinateInputField = (props: InputFieldProps) => {
     const secondTextInput = useRef<TextInput>(null)
     const thirdTextInput = useRef<TextInput>(null)
 
-    const [inputTexts, setInputTexts] = useState(['0', '0', '0']);
+    const [inputTexts, setInputTexts] = useState(['', '', '']);
 
     const themeColors = props.themeColors
 

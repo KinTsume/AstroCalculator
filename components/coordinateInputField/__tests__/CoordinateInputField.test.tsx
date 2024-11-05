@@ -1,6 +1,6 @@
 
 import {describe, it, expect} from '@jest/globals';
-import { fireEvent, render } from '@testing-library/react-native';
+import { render, userEvent, waitFor } from '@testing-library/react-native';
 import CoordinateInputField, { InputFieldProps } from '../CoordinateInputField';
 
 import { DARK } from '../../../assets/ColorPalettes';
@@ -9,8 +9,7 @@ const props: InputFieldProps = {
     themeColors: DARK.ManualInputScreen,
     unitsMaxValue: [24, 60, 60],
     fieldUnits: ['h', 'm', 's'],
-    saveIndex: 0,
-    SaveCoordinates: (index: number, value: string[]) => {},
+    SaveCallback: (value: string[]) => {},
 }
 
 describe('CoordinateInputField', () => {
@@ -56,15 +55,21 @@ describe('CoordinateInputField', () => {
         expect(thirdElement).toBeTruthy()
     })
 
-    it('Corrects the input subfields after entering a number beyond the unit limit', () => {
-        const {getAllByTestId, debug} = render(<CoordinateInputField {...props}/>)
+    it('Corrects the input subfields after entering a number beyond the unit limit', async() => {
+        const {getAllByTestId} = render(<CoordinateInputField {...props}/>)
 
-        const firstElement = getAllByTestId('inputSubfield')[0]
-        const secondElement = getAllByTestId('inputSubfield')[1]
-        const thirdElement = getAllByTestId('inputSubfield')[2]
-        fireEvent.changeText(firstElement, '25')
-        fireEvent.changeText(secondElement, '100')
-        fireEvent.changeText(thirdElement, '100')
+        const elements = getAllByTestId('inputSubfield')
+        const firstElement = elements[0]
+        const secondElement = elements[1]
+        const thirdElement = elements[2]
+
+        await waitFor(async() => {
+            
+            await userEvent.type(firstElement, '25')
+            await userEvent.type(secondElement, '100')
+            await userEvent.type(thirdElement, '100')
+        })
+
         const firstParsedValue = parseInt(firstElement.props.value)
         const secondParsedValue = parseInt(secondElement.props.value)
         const thirdParsedValue = parseInt(thirdElement.props.value)
@@ -74,15 +79,21 @@ describe('CoordinateInputField', () => {
         expect(thirdParsedValue).toBe(props.unitsMaxValue[2] - 1)
     })
 
-    it('Corrects the input subfields after entering a number lower than the unit limit', () => {
-        const {getAllByTestId, debug} = render(<CoordinateInputField {...props}/>)
+    it('Corrects the input subfields after entering a number lower than the unit limit', async() => {
+        const {getAllByTestId} = render(<CoordinateInputField {...props}/>)
 
-        const firstElement = getAllByTestId('inputSubfield')[0]
-        const secondElement = getAllByTestId('inputSubfield')[1]
-        const thirdElement = getAllByTestId('inputSubfield')[2]
-        fireEvent.changeText(firstElement, '-25')
-        fireEvent.changeText(secondElement, '-100')
-        fireEvent.changeText(thirdElement, '-100')
+        const elements = getAllByTestId('inputSubfield')
+
+        const firstElement = elements[0]
+        const secondElement = elements[1]
+        const thirdElement = elements[2]
+
+        await waitFor(async() => {
+            await userEvent.type(firstElement, '-25')
+            await userEvent.type(secondElement, '-100')
+            await userEvent.type(thirdElement, '-100')
+        })
+        
         const firstParsedValue = parseInt(firstElement.props.value)
         const secondParsedValue = parseInt(secondElement.props.value)
         const thirdParsedValue = parseInt(thirdElement.props.value)

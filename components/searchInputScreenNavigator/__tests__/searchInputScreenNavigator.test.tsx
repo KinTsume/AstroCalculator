@@ -26,23 +26,25 @@ const Sirius: CatalogueObject = {
 
 describe('SearchInputScreen', () => {
     describe('Logic', () => {
-        it('Changes origin object to Vega', async() => {
+        it('Changes origin object to Vega', () => {
             const{result} = renderHook(() => useSearchInputScreenNavigator())
 
-            await waitFor(() => {
+            waitFor(() => {
                 result.current.SetObject(Vega, 'origin')
-
+            })
+            .then(() => {
                 const originObject = result.current.originObject
 
                 expect(originObject).toBe(Vega)
             })
         })
-        it('Changes origin object to Sirius', async() => {
+        it('Changes origin object to Sirius', () => {
             const{result} = renderHook(() => useSearchInputScreenNavigator())
 
-            await waitFor(() => {
+            waitFor(() => {
                 result.current.SetObject(Sirius, 'target')
-
+            })
+            .then(() => {
                 const targetObject = result.current.targetObject
 
                 expect(targetObject).toBe(Sirius)

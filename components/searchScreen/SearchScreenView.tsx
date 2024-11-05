@@ -55,6 +55,7 @@ interface CatalogueObjectsContainerProps {
     SetSearchedObjectCallback: (object: CatalogueObject) => void,
     themeColors: SearchInputScreenColors
 }
+
 const CatalogueObjectsContainer = ({catalogueObjects, themeColors, SetSearchedObjectCallback}: CatalogueObjectsContainerProps) => {
     let cardsArray: Array<React.JSX.Element> = []
 
