@@ -56,6 +56,7 @@ const CoordinateInputField = (props: InputFieldProps) => {
             onChangeText = {(value) => checkLimit(value, 0)}
             onSubmitEditing = {() => {
               secondTextInput.current?.focus()
+              console.log(inputTexts)
               props.SaveCallback(inputTexts)
             }}
             onEndEditing={() => {
