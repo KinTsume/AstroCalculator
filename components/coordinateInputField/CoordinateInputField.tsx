@@ -6,9 +6,8 @@ import { ManualInputScreenColors } from '../../assets/ColorPalettes'
 export interface InputFieldProps{
   fieldUnits: string[],
   unitsMaxValue: number[],
-  saveIndex: number,
   themeColors: ManualInputScreenColors,
-  SaveCoordinates: (index: number, value: string[]) => void
+  SaveCallback: (value: string[]) => void
 }
 
 const CoordinateInputField = (props: InputFieldProps) => {
@@ -57,10 +56,11 @@ const CoordinateInputField = (props: InputFieldProps) => {
             onChangeText = {(value) => checkLimit(value, 0)}
             onSubmitEditing = {() => {
               secondTextInput.current?.focus()
-              props.SaveCoordinates(props.saveIndex, inputTexts)
+              console.log(inputTexts)
+              props.SaveCallback(inputTexts)
             }}
             onEndEditing={() => {
-              props.SaveCoordinates(props.saveIndex, inputTexts)
+              props.SaveCallback(inputTexts)
             }}
             blurOnSubmit={false}
             placeholderTextColor={themeColors.PlaceholderTextColor}
@@ -80,10 +80,10 @@ const CoordinateInputField = (props: InputFieldProps) => {
             ref={secondTextInput}
             onSubmitEditing = {() => {
               thirdTextInput.current?.focus()
-              props.SaveCoordinates(props.saveIndex, inputTexts)
+              props.SaveCallback(inputTexts)
             }}
             onEndEditing={() => {
-              props.SaveCoordinates(props.saveIndex, inputTexts)
+              props.SaveCallback(inputTexts)
             }}
             blurOnSubmit={false}
             placeholderTextColor={themeColors.PlaceholderTextColor}
@@ -102,10 +102,10 @@ const CoordinateInputField = (props: InputFieldProps) => {
             onChangeText = {(value) => checkLimit(value, 2)}
             ref={thirdTextInput}
             onSubmitEditing = {() => {
-              props.SaveCoordinates(props.saveIndex, inputTexts)
+              props.SaveCallback(inputTexts)
             }}
             onEndEditing={() => {
-              props.SaveCoordinates(props.saveIndex, inputTexts)
+              props.SaveCallback(inputTexts)
             }}
             placeholderTextColor={themeColors.PlaceholderTextColor}
             style={[styles.textInputStyle, {color: themeColors.TextColor}]}

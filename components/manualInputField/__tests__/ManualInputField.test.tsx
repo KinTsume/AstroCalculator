@@ -28,7 +28,7 @@ describe('ManualInputField', () => {
         it('Saves the origin coordinate', () => {
             const{ result } = renderHook(() => useManualInputField(props))
 
-            result.current.SaveValues(0, ['20', '20', '20'])
+            result.current.SaveOrigin(['20', '20', '20'])
 
             const roundedCoord = Math.round(20.338888889 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
 
@@ -39,7 +39,7 @@ describe('ManualInputField', () => {
         it('Saves the target coordinate', () => {
             const{ result } = renderHook(() => useManualInputField(props))
 
-            result.current.SaveValues(1, ['30', '10', '30'])
+            result.current.SaveTarget(['30', '10', '30'])
 
             const roundedCoord = Math.round(30.175 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
 
@@ -49,8 +49,8 @@ describe('ManualInputField', () => {
         it('Returns the calculated distance', () => {
             const{ result } = renderHook(() => useManualInputField(props))
     
-            result.current.SaveValues(0, ['20', '20', '20'])
-            result.current.SaveValues(1, ['30', '10', '30'])
+            result.current.SaveOrigin(['20', '20', '20'])
+            result.current.SaveTarget(['30', '10', '30'])
             const distance = result.current.CalculateDistanceInDegrees()
 
             const roundedOriginValue = Math.round(20.338888889 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision

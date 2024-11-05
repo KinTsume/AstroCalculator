@@ -4,8 +4,10 @@ import { render, renderHook, userEvent, waitFor } from '@testing-library/react-n
 import LocalCoordinateInput from '../LocalCoordinateInput';
 import useLocalCoordinateInput from '../useLocalCoordinateInput';
 import LocalCoordinateInputView, { LocalCoordinateInputViewProps } from '../LocalCoordinatesInputView';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import AppConfig from '../../../assets/AppConfig';
+import { get } from 'react-native/Libraries/TurboModule/TurboModuleRegistry';
 
 let viewPropsMock: LocalCoordinateInputViewProps = {
     SaveLatitude: jest.fn(), 
@@ -15,7 +17,7 @@ let viewPropsMock: LocalCoordinateInputViewProps = {
     longitude: 0
 }
 
-beforeEach(() => {
+beforeEach(async() => {
     jest.useFakeTimers()
 
     viewPropsMock = {
@@ -25,6 +27,11 @@ beforeEach(() => {
         latitude: 0,
         longitude: 0
     }
+
+    await AsyncStorage.setItem('position', JSON.stringify({
+        latitude: 10,
+        longitude: 25,
+    }))
 })
 
 afterEach(() => {
@@ -37,7 +44,7 @@ describe('LocalCoordinateInput', () => {
             const { result } = renderHook(() => useLocalCoordinateInput())
 
             await waitFor(() => {
-                result.current.SaveLatitude(0, ['1', '2', '3'])
+                result.current.SaveLatitude(['1', '2', '3'])
 
                 const roundedValue = Math.round(1.034166667 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
 
@@ -49,7 +56,7 @@ describe('LocalCoordinateInput', () => {
             const { result } = renderHook(() => useLocalCoordinateInput())
 
             await waitFor(() => {
-                result.current.SaveLongitude(0, ['20', '30', '40'])
+                result.current.SaveLongitude(['20', '30', '40'])
 
                 const roundedValue = Math.round(20.51111111111 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
 
@@ -57,8 +64,8 @@ describe('LocalCoordinateInput', () => {
             }) 
         })
 
-        it('Gets the geolocation latitude', () => {
-            const { result } = renderHook(() => useLocalCoordinateInput())
+        it('Gets the geolocation latitude', async() => {
+            const { result } = await waitFor(() => renderHook(() => useLocalCoordinateInput()))
 
             waitFor(() => {
                 result.current.GetGeolocation()                
@@ -68,8 +75,8 @@ describe('LocalCoordinateInput', () => {
             })
         })
 
-        it('Gets the geolocation longitude', () => {
-            const { result } = renderHook(() => useLocalCoordinateInput())
+        it('Gets the geolocation longitude', async() => {
+            const { result } = await waitFor(() => renderHook(() => useLocalCoordinateInput()))
 
             waitFor(() => {
                 result.current.GetGeolocation()
@@ -83,16 +90,16 @@ describe('LocalCoordinateInput', () => {
 
     describe('View', () => {
 
-        it('Renders 2 CoordinateInputFields', () => {
-            const{ queryAllByTestId } = render(<LocalCoordinateInput/>)
+        it('Renders 2 CoordinateInputFields', async() => {
+            const{ queryAllByTestId } = await waitFor(() => render(<LocalCoordinateInput/>))
 
             const result = queryAllByTestId('coordinateInputField')
 
             expect(result.length).toBe(2)
         })
 
-        it('Renders the gps fill icon button', () => {
-            const{ queryByTestId } = render(<LocalCoordinateInput/>)
+        it('Renders the gps fill icon button', async() => {
+            const{ queryByTestId } = await waitFor(() => render(<LocalCoordinateInput/>))
 
             const result = queryByTestId('gpsFillButton')
 
@@ -156,6 +163,24 @@ describe('LocalCoordinateInput', () => {
             .then(() => {
                 expect(viewPropsMock.GetGeolocation).toHaveBeenCalled()
             })
+        })
+
+        it('Sets the current latitude based on saved persistent data', async() => {
+
+            const{ queryByText } = await waitFor(() => render(<LocalCoordinateInput/>))
+
+            const latitude = queryByText('Latitude: 10')
+
+            expect(latitude).toBeTruthy()
+        })
+
+        it('Sets the current longitude based on saved persistent data', async() => {
+
+            const{ queryByText } = await waitFor(() => render(<LocalCoordinateInput/>))
+
+            const longitude = queryByText('Longitude: 25')
+
+            expect(longitude).toBeTruthy()
         })
     })
 })

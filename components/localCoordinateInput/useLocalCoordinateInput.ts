@@ -1,9 +1,15 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import useAngleRepresentationUtility from "../../utils/useAngleRepresentationUtility"
 import Geolocation from "@react-native-community/geolocation"
+import AsyncStorage from "@react-native-async-storage/async-storage"
 
 export interface localCoordinateInputProps{
 
+}
+
+export interface positionStorage {
+    latitude: number,
+    longitude: number
 }
 
 const useLocalCoordinateInput = () => {
@@ -11,9 +17,46 @@ const useLocalCoordinateInput = () => {
     const [latitude, setLatitude] = useState(0)
     const [longitude, setLongitude] = useState(0)
 
+    useEffect(() => {
+        let ignore = false
+
+        setLatitude(0)
+        setLongitude(0)
+
+        AsyncStorage.getItem('position').then(result => {
+            if(!ignore && result) {
+                const positionData: positionStorage = JSON.parse(result)
+
+                setLatitude(positionData.latitude)
+                setLongitude(positionData.longitude)
+            }
+        })
+
+        return () => {
+            ignore = true;
+        };
+    }, [])
+
+    useEffect(() => {
+        let ignore = false
+
+        const position = {
+            latitude,
+            longitude,
+        }
+
+        const stringPosition = JSON.stringify(position)
+
+        AsyncStorage.setItem('position', stringPosition)
+
+        return () => {
+            ignore = true;
+        };
+    }, [latitude, longitude])
+
     const {convertToDecimalRepresentation} = useAngleRepresentationUtility()
 
-    const SaveLatitude = (index: number, latitude: string[] | number) => {
+    const SaveLatitude = (latitude: string[] | number) => {
 
         if(typeof latitude == 'number'){
             setLatitude(latitude)
@@ -27,7 +70,7 @@ const useLocalCoordinateInput = () => {
         setLatitude(asDecimalRepresentation)
     }
 
-    const SaveLongitude = (index: number, longitude: string[] | number) => {
+    const SaveLongitude = async(longitude: string[] | number) => {
         
         if(typeof longitude == 'number'){
             setLongitude(longitude)

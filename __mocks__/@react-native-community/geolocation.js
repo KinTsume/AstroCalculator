@@ -1,6 +1,6 @@
 export default {
     addListener: jest.fn(),
-    getCurrentPosition: jest.fn().mockImplementation(successCallback => {
+    getCurrentPosition: jest.fn(successCallback => {
       const position = {
         coords: {
           latitude: -23.006945,

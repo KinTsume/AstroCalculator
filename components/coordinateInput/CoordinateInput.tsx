@@ -9,7 +9,8 @@ export interface CoordinateInputProps{
   fieldUnits: string[],
   unitsMaxValue: number[],
   isOrigin: boolean,
-  SaveCoordinates: (index: number, value: string[]) => void
+  SaveOrigin: (value: string[]) => void,
+  SaveTarget: (value: string[]) => void,
 }
 
 function CoordinateInput(props: CoordinateInputProps) {
@@ -19,7 +20,7 @@ function CoordinateInput(props: CoordinateInputProps) {
       <View>
         <CoordinateInputField
         {...props}
-        saveIndex={0}
+        SaveCallback={props.SaveOrigin}
         />
       </View>
     )
@@ -29,7 +30,7 @@ function CoordinateInput(props: CoordinateInputProps) {
     <View>
       <CoordinateInputField
       {...props}
-      saveIndex={1}
+      SaveCallback={props.SaveTarget}
       />
     </View>
   )  

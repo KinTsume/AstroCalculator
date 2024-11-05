@@ -21,23 +21,20 @@ const useManualInputField = (props: ManualInputFieldProps) => {
   const { calculateDistance } = useCalculateDistance()
   const { convertToArrayRepresentation, convertToDecimalRepresentation } = useAngleRepresentationUtility()
 
-  const SaveValues = (index: number, value: string[]) => {
+  const SaveOrigin = (value: string[]) => {
 
     let parsedAngle = value.map((x) => parseInt(x))
     let decimalAngle = convertToDecimalRepresentation(parsedAngle)
 
-    switch(index){
-      case 0:
-        originInput.current = decimalAngle
-        break;
+    originInput.current = decimalAngle
+  }
 
-      case 1:
-        targetInput.current = decimalAngle
-        break;
+  const SaveTarget = (value: string[]) => {
+    
+    let parsedAngle = value.map((x) => parseInt(x))
+    let decimalAngle = convertToDecimalRepresentation(parsedAngle)
 
-      default:
-        break;
-    }
+    targetInput.current = decimalAngle
   }
 
   const CalculateDistanceInDegrees = () => {
@@ -48,7 +45,7 @@ const useManualInputField = (props: ManualInputFieldProps) => {
     return distanceArray;
   }
 
-  return {...props, originInput, targetInput, SaveValues, CalculateDistanceInDegrees}
+  return {...props, originInput, targetInput, SaveOrigin, SaveTarget, CalculateDistanceInDegrees}
 }
 
 export default useManualInputField
