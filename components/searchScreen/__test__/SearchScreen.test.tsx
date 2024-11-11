@@ -38,48 +38,44 @@ afterEach(() => {
 })
 
 describe('SearchScreen', () => {
-    const changeObjectMock = jest.fn()
-    const replaceMock = jest.fn()
-
-    let navigation = {
-        replace: () => {replaceMock()}
-    }
-
-    let route = {
-        params: {
-            ChangeObject: () => {changeObjectMock()}
+    const propsMock = {
+        navigation: {
+            replace: jest.fn()
+        },
+        route: {
+            params: {
+                ChangeObject: jest.fn()
+            }
         }
     }
 
     describe('Logic', () => {
         it('Fetches test catalogueObjects list', () => {
 
-            const { result } = renderHook(() => useSearchScreen({navigation, route}))
+            const { result } = renderHook(() => useSearchScreen({...propsMock}))
 
             waitFor(() => result.current.FetchSearchObjects('HD'))
             .then(() => {
                 expect(result.current.search.length).toBe(5)
             })
-
-            
             
         })
         
         it('Calls navigation.replace', () => {
-            const { result } = renderHook(() => useSearchScreen({navigation, route}))
+            const { result } = renderHook(() => useSearchScreen({...propsMock}))
 
             waitFor(() => {
                 result.current.SetSearchedObject(stars[1], 'origin')
             })
             .then(() => {
-                expect(replaceMock).toHaveBeenCalled()
+                expect(propsMock.navigation.replace).toHaveBeenCalled()
             })
 
         })
     })
     describe('View', () => {
         it('Renders 5 catalogueObject cards', () => {
-            const { getAllByTestId, getByTestId } = render(<SearchScreen navigation={navigation} route={route}/>)
+            const { getAllByTestId, getByTestId } = render(<SearchScreen {...propsMock}/>)
 
             waitFor(() => {
                 const searchBar = getByTestId('searchBar')
@@ -94,7 +90,7 @@ describe('SearchScreen', () => {
         })
 
         it("Doesn't render any catalogueObject card", () => {
-            const { queryAllByTestId } = render(<SearchScreen navigation={navigation} route={route}/>)
+            const { queryAllByTestId } = render(<SearchScreen {...propsMock}/>)
 
             const result = queryAllByTestId('CatalogueObjectCard')
 
