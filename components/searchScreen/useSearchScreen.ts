@@ -7,16 +7,6 @@ import stars from "../../assets/stars.ts";
 import useCalculateDistance from "../../utils/useCalculateDistance"
 import CatalogueObjectCard, { CatalogueObject } from "../catalogueObjectCard/CatalogueObjectCard";
 
-const mock = new MockAdapter(axios)
-
-mock.onGet('/catalogueObjects/search', {params: {searchText: 'Hd1'}}).reply(200, {
-    catalogueObjects: [stars[1], stars[2]]
-})
-
-mock.onGet('/catalogueObjects/search', {params: {searchText: 'Gurb'}}).reply(200, {
-    catalogueObjects: stars
-})
-
 const useSearchScreen = ({navigation, route}: any) => {
     const [search, setSearch] = useState(Array<CatalogueObject>())
     

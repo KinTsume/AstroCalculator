@@ -14,7 +14,7 @@ const CoordinateInputField = (props: InputFieldProps) => {
     const secondTextInput = useRef<TextInput>(null)
     const thirdTextInput = useRef<TextInput>(null)
 
-    const [inputTexts, setInputTexts] = useState(['0', '0', '0']);
+    const [inputTexts, setInputTexts] = useState(['', '', '']);
 
     const themeColors = props.themeColors
 
@@ -50,7 +50,7 @@ const CoordinateInputField = (props: InputFieldProps) => {
             testID='inputSubfield'
             textAlign='center'
             inputMode='numeric'
-            maxLength={3}
+            maxLength={4}
             placeholder='000'
             value={inputTexts[0]}
             onChangeText = {(value) => checkLimit(value, 0)}
@@ -73,7 +73,7 @@ const CoordinateInputField = (props: InputFieldProps) => {
             testID='inputSubfield'
             textAlign='center'
             inputMode='numeric'
-            maxLength={3}
+            maxLength={4}
             placeholder='00'
             value={inputTexts[1]}
             onChangeText = {(value) => checkLimit(value, 1)}
@@ -96,7 +96,7 @@ const CoordinateInputField = (props: InputFieldProps) => {
             testID='inputSubfield'
             textAlign='center'
             inputMode='numeric'
-            maxLength={3}
+            maxLength={4}
             placeholder='00'
             value={inputTexts[2]}
             onChangeText = {(value) => checkLimit(value, 2)}

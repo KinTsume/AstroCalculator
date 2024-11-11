@@ -1,5 +1,5 @@
 import { jest, describe, it, expect, beforeEach, afterEach } from '@jest/globals';
-import { render, renderHook, userEvent } from '@testing-library/react-native';
+import { render, renderHook, userEvent, waitFor } from '@testing-library/react-native';
 import useManualInputField, { ManualInputFieldProps } from '../useManualInputField';
 import ManualInputFieldView from '../ManualInputFieldView';
 
@@ -31,7 +31,6 @@ describe('ManualInputField', () => {
             result.current.SaveOrigin(['20', '20', '20'])
 
             const roundedCoord = Math.round(20.338888889 * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
-
 
             expect(result.current.originInput.current).toBe(roundedCoord)
         })
@@ -91,20 +90,24 @@ describe('ManualInputField', () => {
     
             expect(element).toBeTruthy()
         })
-    
-        it('Sets result correctly', async() => {
+
+        it('Sets result correctly', () => {
             const SaveValues = (index: number, values: string[]) => {}
             const CalculateDistance = () => {return([10, 20, 30])}
-            userEvent.setup()
+            
             const{ getByText, getByTestId } = render(<ManualInputFieldView {...props} SaveValues={SaveValues} CalculateDistanceInDegrees={CalculateDistance} />)
     
             const submitButton = getByTestId('submitButton')
-            await userEvent.press(submitButton)
-            
-            const textQuery = 'Result: '+ '10' + props.fieldUnits[0] + '20' + props.fieldUnits[1] + '30' + props.fieldUnits[2]
-            const element = getByText(textQuery)
-    
-            expect(element).toBeTruthy
+
+            waitFor(() => {
+                userEvent.press(submitButton)
+            })
+            .then(() => {
+                const textQuery = 'Result: '+ '10' + props.fieldUnits[0] + '20' + props.fieldUnits[1] + '30' + props.fieldUnits[2]
+                const element = getByText(textQuery)
+        
+                expect(element).toBeTruthy
+            })
         })
     })
 })

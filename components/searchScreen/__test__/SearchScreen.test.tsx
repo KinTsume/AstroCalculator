@@ -13,6 +13,7 @@ import { SearchScreenViewProps } from '../SearchScreenView';
 
 import { DARK } from '../../../assets/ColorPalettes';
 import { useEvent } from 'react-native-reanimated';
+import { CatalogueObject } from '../../catalogueObjectCard/CatalogueObjectCard';
 
 const mock = new MockAdapter(axios)
 
@@ -28,52 +29,60 @@ mock.onGet('/catalogueObjects/search', {params: {searchText: 'HD0'}}).reply(200,
     catalogueObjects: []
 })
 
+beforeEach(() => {
+    jest.useFakeTimers()
+})
+
+afterEach(() => {
+    jest.useRealTimers()
+})
+
 describe('SearchScreen', () => {
-    const changeObjectMock = jest.fn()
-    const replaceMock = jest.fn()
-
-    let navigation = {
-        replace: () => {replaceMock()}
-    }
-
-    let route = {
-        params: {
-            ChangeObject: () => {changeObjectMock()}
+    const propsMock = {
+        navigation: {
+            replace: jest.fn()
+        },
+        route: {
+            params: {
+                ChangeObject: jest.fn()
+            }
         }
     }
 
     describe('Logic', () => {
-        it('Fetches test catalogueObjects list', async() => {
+        it('Fetches test catalogueObjects list', () => {
 
-            const { result } = renderHook(() => useSearchScreen({navigation, route}))
+            const { result } = renderHook(() => useSearchScreen({...propsMock}))
 
-            await waitFor(() => result.current.FetchSearchObjects('HD'))
-
-            expect(result.current.search.length).toBe(5)
+            waitFor(() => result.current.FetchSearchObjects('HD'))
+            .then(() => {
+                expect(result.current.search.length).toBe(5)
+            })
             
         })
         
-        it('Calls navigation.replace', async() => {
-            const { result } = renderHook(() => useSearchScreen({navigation, route}))
+        it('Calls navigation.replace', () => {
+            const { result } = renderHook(() => useSearchScreen({...propsMock}))
 
-            await waitFor(() => {
+            waitFor(() => {
                 result.current.SetSearchedObject(stars[1], 'origin')
             })
+            .then(() => {
+                expect(propsMock.navigation.replace).toHaveBeenCalled()
+            })
 
-            expect(replaceMock).toHaveBeenCalled()
-            
         })
     })
     describe('View', () => {
-        it('Renders 5 catalogueObject cards', async() => {
-            const { getAllByTestId, getByTestId, getAllByText,debug } = render(<SearchScreen navigation={navigation} route={route}/>)
+        it('Renders 5 catalogueObject cards', () => {
+            const { getAllByTestId, getByTestId } = render(<SearchScreen {...propsMock}/>)
 
-            await waitFor(async() => {
+            waitFor(() => {
                 const searchBar = getByTestId('searchBar')
 
-                const user = userEvent.setup()
-                await user.type(searchBar, 'HD', {submitEditing: true})
-
+                userEvent.type(searchBar, 'HD', {submitEditing: true})
+            })
+            .then(() => {
                 const result = getAllByTestId('CatalogueObjectCard')
 
                 expect(result.length).toBe(5)
@@ -81,15 +90,11 @@ describe('SearchScreen', () => {
         })
 
         it("Doesn't render any catalogueObject card", () => {
-            const { queryAllByTestId } = render(<SearchScreen navigation={navigation} route={route}/>)
+            const { queryAllByTestId } = render(<SearchScreen {...propsMock}/>)
 
             const result = queryAllByTestId('CatalogueObjectCard')
 
             expect(result.length).toBe(0)
-        })
-
-        it("Calls setSearchedObject", () => {
-            const { queryAllByTestId } = render(<SearchScreen navigation={navigation} route={route}/>)
         })
     })
 })

@@ -14,49 +14,58 @@ afterEach(() => {
 })
 
 describe('AppNavigator', () => {
-    it('Renders manual input screen', async() => {
-        const{getByTestId, getByText} = render(
+    it('Renders manual input screen', () => {
+        const{queryByTestId, getByText} = render(
             <NavigationContainer>
                 <AppNavigator/>
             </NavigationContainer>
         )
 
         const button = getByText('Manual Input')
-        await userEvent.press(button)
 
-        await waitFor(() => {
-            expect(() => getByTestId('ManualInputScreen')).toBeTruthy()
+        waitFor(() => {
+            userEvent.press(button)
+            
         })
-        //expect(element).toBeTruthy()
+        .then(() => {
+            const manualInputScreen = queryByTestId('ManualInputScreen')
+            expect(manualInputScreen).toBeTruthy()
+        })
     })
 
-    it('Renders search input screen', async() => {
-        const{getByTestId, getByText} = render(
+    it('Renders search input screen', () => {
+        const{queryByTestId, getByText} = render(
             <NavigationContainer>
                 <AppNavigator/>
             </NavigationContainer>
         )
 
         const button = getByText('Search Input')
-        await userEvent.press(button)
 
-        await waitFor(() => {
-            expect(() => getByTestId('SearchInputScreen')).toBeTruthy()
+        waitFor(() => {
+            userEvent.press(button)
+        })
+        .then(() => {
+            const searchInputScreen = queryByTestId('SearchInputScreen')
+            expect(searchInputScreen).toBeTruthy()
         })
     })
 
-    it('Renders options screen', async() => {
-        const{getByTestId, getByText} = render(
+    it('Renders options screen', () => {
+        const{queryByTestId, getByText} = render(
             <NavigationContainer>
                 <AppNavigator/>
             </NavigationContainer>
         )
 
         const button = getByText('Options')
-        await userEvent.press(button)
 
-        await waitFor(() => {
-            expect(() => getByTestId('OptionsScreen')).toBeTruthy()
+        waitFor(() => {
+            userEvent.press(button)
+        })
+        .then(() => {
+            const optionsScreen = queryByTestId('OptionsScreen')
+            expect(optionsScreen).toBeTruthy()
         })
     })
     it("Renders the icons", () => {

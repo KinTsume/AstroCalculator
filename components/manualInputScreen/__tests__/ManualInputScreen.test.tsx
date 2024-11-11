@@ -14,17 +14,17 @@ describe('ManualInputScreen', () => {
     })
 
     it('Renders a hour angle ManualInputField', () => {
-        const{getByText} = render(<ManualInputScreen/>)
+        const{queryByText} = render(<ManualInputScreen/>)
 
-        const element = getByText('Origin hour angle')
+        const element = queryByText('Origin hour angle')
 
         expect(element).toBeTruthy()
     })
 
     it('Renders a declination ManualInputField', () => {
-        const{getByText} = render(<ManualInputScreen/>)
+        const{queryByText} = render(<ManualInputScreen/>)
 
-        const element = getByText('Origin declination')
+        const element = queryByText('Origin declination')
 
         expect(element).toBeTruthy()
     })
