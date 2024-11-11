@@ -50,7 +50,7 @@ const CoordinateInputField = (props: InputFieldProps) => {
             testID='inputSubfield'
             textAlign='center'
             inputMode='numeric'
-            maxLength={3}
+            maxLength={4}
             placeholder='000'
             value={inputTexts[0]}
             onChangeText = {(value) => checkLimit(value, 0)}
@@ -73,7 +73,7 @@ const CoordinateInputField = (props: InputFieldProps) => {
             testID='inputSubfield'
             textAlign='center'
             inputMode='numeric'
-            maxLength={3}
+            maxLength={4}
             placeholder='00'
             value={inputTexts[1]}
             onChangeText = {(value) => checkLimit(value, 1)}
@@ -96,7 +96,7 @@ const CoordinateInputField = (props: InputFieldProps) => {
             testID='inputSubfield'
             textAlign='center'
             inputMode='numeric'
-            maxLength={3}
+            maxLength={4}
             placeholder='00'
             value={inputTexts[2]}
             onChangeText = {(value) => checkLimit(value, 2)}
