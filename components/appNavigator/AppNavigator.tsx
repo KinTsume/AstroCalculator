@@ -5,7 +5,6 @@ import { Icon } from 'react-native-paper';
 
 import Ionicons from "react-native-ionicons";
 
-import ManualInputScreen from '../manualInputScreen/ManualInputScreen';
 import SearchInputScreenNavigator from '../searchInputScreenNavigator/SearchInputScreenNavigator'
 import OptionsScreen from '../optionsScreen/OptionsScreen';
 
@@ -33,17 +32,7 @@ export default function AppNavigator(): React.JSX.Element{
           backgroundColor: themeColors.NavigationContainer.Background
         },
       }}>
-
-      <Tab.Screen 
-      name='Manual Input' 
-      component={ManualInputScreen}
-      options={{
-        tabBarIcon: ({focused}) => 
-        {
-          return manualInputIcon
-        }
-      }}
-      />
+        
       <Tab.Screen 
       name='Search Input' 
       component={SearchInputScreenNavigator}
