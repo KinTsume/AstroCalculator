@@ -1,4 +1,4 @@
-import {describe, it, expect, jest} from '@jest/globals';
+import {describe, it, expect, jest, beforeEach, afterEach} from '@jest/globals';
 import { render, renderHook, userEvent, waitFor } from '@testing-library/react-native';
 
 import SearchInputScreen from '../SearchInputScreen';
@@ -30,22 +30,48 @@ const Sirius: CatalogueObject = {
 
 const setObjectMock = jest.fn()
 
+let propsMock: navigationProps = {
+    navigation: '',
+    route: {
+        params: {
+            catalogueObject: Vega,
+            position: ''
+        }
+    },
+    originObject: Vega,
+    targetObject: Sirius,
+    fieldName: 'declination',
+    fieldUnits: ['º', '´', '´´'],
+    unitsMaxValue: [360, 60, 60], 
+    SetObject: setObjectMock,  
+}
+
+beforeEach(() => {
+    jest.useFakeTimers()
+})
+
+afterEach(() => {
+    jest.useRealTimers()
+    propsMock = {
+        navigation: '',
+        route: {
+            params: {
+                catalogueObject: Vega,
+                position: ''
+            }
+        },
+        originObject: Vega,
+        targetObject: Sirius,
+        fieldName: 'declination',
+        fieldUnits: ['º', '´', '´´'],
+        unitsMaxValue: [360, 60, 60], 
+        SetObject: setObjectMock        
+    }
+})
+
 describe('SearchInputScreen', () => {
     describe('Logic', () => {
-        let propsMock: navigationProps = {
-            navigation: '',
-            route: {
-                params: {
-                    catalogueObject: Vega,
-                    position: ''
-                }
-            },
-            originObject: Vega,
-            targetObject: Sirius,
-            SetObject: setObjectMock        
-        }
-
-        it('Returns the right RA', async() => {
+        it('Returns the right RA', () => {
 
             const{result} = renderHook(() => useSearchInputScreen(propsMock))
 
@@ -76,6 +102,7 @@ describe('SearchInputScreen', () => {
         })
 
         it('Returns 0 for DE', async() => {
+            propsMock.originObject = Sirius
             const{result} = renderHook(() => useSearchInputScreen(propsMock))
 
             const resultDE = result.current.resultDE
@@ -84,19 +111,6 @@ describe('SearchInputScreen', () => {
     })
 
     describe('View', () => {
-        let propsMock: navigationProps = {
-            navigation: '',
-            route: {
-                params: {
-                    catalogueObject: Vega,
-                    position: ''
-                }
-            },
-            originObject: Vega,
-            targetObject: Sirius,
-            SetObject: setObjectMock        
-        }
-
         it('Renders 2 CatalogueObjectCards', () => {
             const{ getAllByTestId } = render(<SearchInputScreen {...propsMock}/>)
     
@@ -111,6 +125,76 @@ describe('SearchInputScreen', () => {
             const result = queryAllByTestId('SearchIcon')
     
             expect(result.length).toBe(2)
+        })
+
+        it('Renders 4 coordinateInputField', () => {
+            const{ queryAllByTestId } = render(<SearchInputScreen {...propsMock}/>)
+
+            const result = queryAllByTestId('coordinateInputField')
+    
+            expect(result.length).toBe(4)
+        })
+
+        it('Manually enters the origin', async() => {
+            const{ getAllByTestId } = render(<SearchInputScreen {...propsMock}/>)
+
+            const inputSubfields = getAllByTestId('inputSubfield')
+
+            const originRightAscensionSubfields = inputSubfields.slice(0, 3)
+            const originDeclinationSubfields = inputSubfields.slice(4, 6)
+            const originConfirmButton = getAllByTestId('confirmButton')[0]
+
+            await waitFor(async() => {
+                await userEvent.type(originRightAscensionSubfields[0], '10')
+                await userEvent.type(originRightAscensionSubfields[1], '20')
+                await userEvent.type(originRightAscensionSubfields[2], '30')
+
+                await userEvent.type(originDeclinationSubfields[0], '30')
+                await userEvent.type(originDeclinationSubfields[1], '40')
+                await userEvent.type(originDeclinationSubfields[2], '50')
+
+                await userEvent.press(originConfirmButton)
+            })
+
+            const rawRightAscension = 10 + 20 / 60 + 30 / (60 * 60)
+            const rawDeclination = 30 + 40 / 60 + 50 / (60 * 60)
+
+            const convertedRightAscension = Math.round(rawRightAscension * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
+            const convertedDeclination = Math.round(rawDeclination * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
+
+            expect(propsMock.originObject.RA).toBe(convertedRightAscension)
+            expect(propsMock.originObject.DE).toBe(convertedDeclination)
+        })
+
+        it('Manually enters the target', async() => {
+            const{ getAllByTestId } = render(<SearchInputScreen {...propsMock}/>)
+
+            const inputSubfields = getAllByTestId('inputSubfield')
+
+            const targetRightAscensionSubfields = inputSubfields.slice(7, 9)
+            const targetDeclinationSubfields = inputSubfields.slice(10, 12)
+            const targetConfirmButton = getAllByTestId('confirmButton')[1]
+
+            await waitFor(async() => {
+                await userEvent.type(targetRightAscensionSubfields[0], '10')
+                await userEvent.type(targetRightAscensionSubfields[1], '20')
+                await userEvent.type(targetRightAscensionSubfields[2], '30')
+
+                await userEvent.type(targetDeclinationSubfields[0], '30')
+                await userEvent.type(targetDeclinationSubfields[1], '40')
+                await userEvent.type(targetDeclinationSubfields[2], '50')
+
+                await userEvent.press(targetConfirmButton)
+            })
+
+            const rawRightAscension = 10 + 20 / 60 + 30 / (60 * 60)
+            const rawDeclination = 30 + 40 / 60 + 50 / (60 * 60)
+
+            const convertedRightAscension = Math.round(rawRightAscension * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
+            const convertedDeclination = Math.round(rawDeclination * AppConfig.angleConvertionPrecision) / AppConfig.angleConvertionPrecision
+
+            expect(propsMock.targetObject.RA).toBe(convertedRightAscension)
+            expect(propsMock.targetObject.DE).toBe(convertedDeclination)
         })
     
         it('Show the relative right ascension', () => {

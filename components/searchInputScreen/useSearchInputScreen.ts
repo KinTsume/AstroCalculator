@@ -15,6 +15,9 @@ export interface navigationProps {
     },
     originObject: CatalogueObject,
     targetObject: CatalogueObject,
+    fieldName: string,
+    fieldUnits: string[],
+    unitsMaxValue: number[],
     SetObject: (catalogueObject: CatalogueObject, positionToSet: string) => void
 }
 

@@ -14,24 +14,6 @@ afterEach(() => {
 })
 
 describe('AppNavigator', () => {
-    it('Renders manual input screen', () => {
-        const{queryByTestId, getByText} = render(
-            <NavigationContainer>
-                <AppNavigator/>
-            </NavigationContainer>
-        )
-
-        const button = getByText('Manual Input')
-
-        waitFor(() => {
-            userEvent.press(button)
-            
-        })
-        .then(() => {
-            const manualInputScreen = queryByTestId('ManualInputScreen')
-            expect(manualInputScreen).toBeTruthy()
-        })
-    })
 
     it('Renders search input screen', () => {
         const{queryByTestId, getByText} = render(
@@ -77,6 +59,6 @@ describe('AppNavigator', () => {
 
         const icon = queryAllByTestId("navIcon")
 
-        expect(icon.length).toBe(3*2) //It generates a second copy for each icon, so the test should search for 6 icons 
+        expect(icon.length).toBe(2*2) //It generates a second copy for each icon, so the test should search for doubled icons 
     })
 })
